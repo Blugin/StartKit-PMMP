@@ -21,7 +21,7 @@ class ResetSubCommand extends SubCommand{
      * @return bool
      */
     public function onCommand(CommandSender $sender, array $args) : bool{
-
+        $this->plugin->setSupplieds([]);
         $sender->sendMessage(Plugin::$prefix . $this->translate('success'));
 
         return true;
