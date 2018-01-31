@@ -8,6 +8,7 @@ use presentkim\startkit\command\subcommands\{
   OpenSubCommand, ResetSubCommand, LangSubCommand, ReloadSubCommand, SaveSubCommand
 };
 use presentkim\startkit\util\Translation;
+use presentkim\startkit\util\Utils;
 
 class StartKit extends PluginBase{
 
@@ -24,6 +25,9 @@ class StartKit extends PluginBase{
 
     /** @var PoolCommand */
     private $command;
+
+    /** @var String[] */
+    private $supplieds = [];
 
     public function onLoad() : void{
         if (self::$instance === null) {
@@ -79,6 +83,44 @@ class StartKit extends PluginBase{
     public function save() : void{
         if (!file_exists($dataFolder = $this->getDataFolder())) {
             mkdir($dataFolder, 0777, true);
+        }
+    }
+
+    /** @return String[] */
+    public function getSupplieds() : array{
+        return $this->supplieds;
+    }
+
+    /** @param String[] $supplieds */
+    public function setSupplieds(array $supplieds) : void{
+        $this->supplieds = $supplieds;
+    }
+
+    /**
+     * @param string $playerName
+     *
+     * @return bool
+     */
+    public function isSupplied(string $playerName) : bool{
+        return Utils::in_arrayi($playerName, $this->supplied);
+    }
+
+    /**
+     * @param string $playerName
+     * @param bool   $supplied = true
+     */
+    public function setSupplied(string $playerName, bool $supplied = true) : void{
+        if ($supplied) {
+            if (!$this->isSupplied($playerName)) {
+                $this->supplieds[] = $supplied;
+            }
+        } else {
+            for ($i = 0, $count = count($this->supplieds); $i < $count; ++$i) {
+                if (strcasecmp($this->supplieds[$i], $playerName) === 0) {
+                    unset($this->supplieds[$i]);
+                    break;
+                }
+            }
         }
     }
 }
