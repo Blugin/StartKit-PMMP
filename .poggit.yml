@@ -1,0 +1,7 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/PMMPPlugin/StartKit_src
+branches:
+- master
+projects:
+  StartKit_src:
+    path: ""
+...
