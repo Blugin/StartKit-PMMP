@@ -48,7 +48,7 @@ class StartKitInventory extends CustomInventory{
           new IntTag('x', 0),
           new IntTag('y', 0),
           new IntTag('z', 0),
-          new StringTag('CustomName', Translation::translate('start-kit')),
+          new StringTag('CustomName', ''),
         ]);
 
         if (self::$nbtWriter === null) {
@@ -77,6 +77,8 @@ class StartKitInventory extends CustomInventory{
         $this->nbt->setInt('x', $this->vectors[$key]->x);
         $this->nbt->setInt('y', $this->vectors[$key]->y);
         $this->nbt->setInt('z', $this->vectors[$key]->z);
+        $this->nbt->setString('CustomName', Translation::translate('start-kit'));
+
         self::$nbtWriter->setData($this->nbt);
 
         $pk = new BlockEntityDataPacket();
