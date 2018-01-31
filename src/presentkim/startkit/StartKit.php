@@ -15,6 +15,7 @@ use presentkim\startkit\command\subcommands\{
   OpenSubCommand, ResetSubCommand, LangSubCommand, ReloadSubCommand, SaveSubCommand
 };
 use presentkim\startkit\inventory\StartKitInventory;
+use presentkim\startkit\listener\PlayerEventListener;
 use presentkim\startkit\util\{
   Translation, Utils
 };
@@ -47,6 +48,7 @@ class StartKit extends PluginBase{
 
     public function onEnable() : void{
         $this->load();
+        $this->getServer()->getPluginManager()->registerEvents(new PlayerEventListener(), $this);
     }
 
     public function onDisable() : void{
