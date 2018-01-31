@@ -2,7 +2,7 @@
 branches:
 - master
 projects:
-  StartKit_src:
+  StartKit:
     path: ""
     icon: meta/icon/192x192.png
 ...
