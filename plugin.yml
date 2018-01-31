@@ -1,0 +1,30 @@
+---
+name:                      StartKit
+main:                      presentkim\startkit\StartKit
+version:                   1.0.0
+api:                       [3.0.0, 3.0.0-ALPHA10]
+author:                    PresentKim
+website:                   https://github.com/PMMPPlugin/StartKit
+description:               A plugin give start kit to player
+
+permissions:
+  startkit.cmd:
+    description:           StartKit command
+    default:               op
+    children:
+      startkit.cmd.open:
+        description:       StartKit command - open
+        default:           op
+      startkit.cmd.default:
+        description:       StartKit command - reset
+        default:           op
+      startkit.cmd.lang:
+        description:       StartKit command - lang
+        default:           op
+      startkit.cmd.reload:
+        description:       StartKit command - reload
+        default:           op
+      startkit.cmd.save:
+        description:       StartKit command - save
+        default:           op
+...

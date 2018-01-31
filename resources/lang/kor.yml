@@ -1,0 +1,38 @@
+---
+prefix: "[StartKit] "
+
+start-kit: "스타트 킷"
+
+command-generic-failure@in-game: "게임 내에서만 사용할 수 있습니다"
+command-generic-failure@permission : "이 명령을 사용할 수 있는 권한이 없습니다"
+
+command-startkit: "startkit"
+command-startkit@usage: /startkit <open | reset | lang | reload | save>
+command-startkit@description: "StartKit의 메인 커맨드"
+command-startkit@aliases: ["sk"]
+
+command-startkit-open: "open"
+command-startkit-open@usage: "/startkit Open"
+command-startkit-open@aliases: ["o"]
+
+command-startkit-reset: "reset"
+command-startkit-reset@usage: "/startkit Reset"
+command-startkit-reset@success: "지급 기록이 초기화되었습니다"
+command-startkit-reset@aliases: ["r"]
+
+command-startkit-lang: "lang"
+command-startkit-lang@usage: "/startkit Lang <언어명>"
+command-startkit-lang@success: "{%0}언어 파일을 불러왔습니다"
+command-startkit-lang@failure: "{%0}는 잘못된 언어명입니다"
+command-startkit-lang@aliases: ["language"]
+
+command-startkit-reload: "reload"
+command-startkit-reload@usage: "/startkit Reload"
+command-startkit-reload@success: "모든 데이터를 불러왔습니다"
+command-startkit-reload@aliases: ["rl"]
+
+command-startkit-save: "save"
+command-startkit-save@usage: "/startkit Save"
+command-startkit-save@success: "모든 데이터를 저장했습니다"
+command-startkit-save@aliases: ["sv"]
+...

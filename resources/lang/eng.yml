@@ -1,0 +1,38 @@
+---
+prefix: "[StartKit] "
+
+start-kit: "Start Kit"
+
+command-generic-failure@in-game: "Available in game only"
+command-generic-failure@permission : "You do not have permission to use this command"
+
+command-startkit: "startkit"
+command-startkit@usage: /startkit <open | reset | lang | reload | save>
+command-startkit@description: "Main command of StartKit"
+command-startkit@aliases: ["sk"]
+
+command-startkit-open: "open"
+command-startkit-open@usage: "/startkit Open"
+command-startkit-open@aliases: ["o"]
+
+command-startkit-reset: "reset"
+command-startkit-reset@usage: "/startkit Reset"
+command-startkit-reset@success: "Supplied history has been reseted"
+command-startkit-reset@aliases: ["r"]
+
+command-startkit-lang: "lang"
+command-startkit-lang@usage: "/startkit Lang <language prefix>"
+command-startkit-lang@success: "{%0} language file was loaded"
+command-startkit-lang@failure: "{%0} is invalid language prefix"
+command-startkit-lang@aliases: ["language"]
+
+command-startkit-reload: "reload"
+command-startkit-reload@usage: "/startkit Reload"
+command-startkit-reload@success: "All data was reloaded"
+command-startkit-reload@aliases: ["rl"]
+
+command-startkit-save: "save"
+command-startkit-save@usage: "/startkit Save"
+command-startkit-save@success: "All data was saved"
+command-startkit-save@aliases: ["sv"]
+...
