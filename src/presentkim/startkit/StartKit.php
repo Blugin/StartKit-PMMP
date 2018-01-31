@@ -2,13 +2,22 @@
 
 namespace presentkim\startkit;
 
+use pocketmine\item\Item;
 use pocketmine\plugin\PluginBase;
+use pocketmine\nbt\{
+  NBT, BigEndianNBTStream
+};
+use pocketmine\nbt\tag\{
+  CompoundTag, ListTag, StringTag
+};
 use presentkim\startkit\command\PoolCommand;
 use presentkim\startkit\command\subcommands\{
   OpenSubCommand, ResetSubCommand, LangSubCommand, ReloadSubCommand, SaveSubCommand
 };
-use presentkim\startkit\util\Translation;
-use presentkim\startkit\util\Utils;
+use presentkim\startkit\inventory\StartKitInventory;
+use presentkim\startkit\util\{
+  Translation, Utils
+};
 
 class StartKit extends PluginBase{
 
@@ -61,6 +70,24 @@ class StartKit extends PluginBase{
 
         self::$prefix = Translation::translate('prefix');
         $this->reloadCommand();
+
+        if (file_exists($file = "{$dataFolder}config.dat")) {
+            try{
+                $nbtStream = new BigEndianNBTStream();
+                $nbtStream->readCompressed(file_get_contents($file));
+                $namedTag = $nbtStream->getData();
+
+                $this->supplieds = $namedTag->getListTag('SuppliedList')->getAllValues();
+
+                $inventory = StartKitInventory::getInstance();
+                foreach ($namedTag->getListTag('Kit') as $key => $tag) {
+                    $inventory->setItem($tag->getByte('Slot'), Item::nbtDeserialize($tag));
+                }
+            } catch (\Throwable $e){
+                rename($file, "{$file}.bak");
+                $this->getLogger()->warning('Error occurred loading config.dat');
+            }
+        }
     }
 
     public function reloadCommand() : void{
@@ -83,6 +110,32 @@ class StartKit extends PluginBase{
     public function save() : void{
         if (!file_exists($dataFolder = $this->getDataFolder())) {
             mkdir($dataFolder, 0777, true);
+        }
+
+        try{
+            $namedTag = new CompoundTag();
+            $suppliedList = [];
+            foreach ($this->supplieds as $key => $value) {
+                $suppliedList[] = new StringTag($value, $value);
+            }
+            $namedTag->setTag(new ListTag('SuppliedList', $suppliedList, NBT::TAG_String));
+
+            $items = [];
+            $inventory = StartKitInventory::getInstance();
+            for ($slot = 0; $slot < 27; ++$slot) {
+                $item = $inventory->getItem($slot);
+                if (!$item->isNull()) {
+                    $items[] = $item->nbtSerialize($slot);
+                }
+            }
+            $namedTag->setTag(new ListTag('Kit', $items, NBT::TAG_Compound));
+
+            $nbtStream = new BigEndianNBTStream();
+            $nbtStream->setData($namedTag);
+
+            file_put_contents($file = "{$dataFolder}config.dat", $nbtStream->writeCompressed());
+        } catch (\Throwable $e){
+            $this->getLogger()->warning('Error occurred saving config.dat');
         }
     }
 
