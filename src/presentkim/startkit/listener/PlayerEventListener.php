@@ -21,7 +21,7 @@ class PlayerEventListener implements Listener{
         $player = $event->getPlayer();
         if (!$this->owner->isSupplied($playerName = $player->getName())) {
             $this->owner->setSupplied($playerName, true);
-            $player->getInventory()->addItem(StartKitInventory::getInstance()->getContents());
+            $player->getInventory()->addItem(...StartKitInventory::getInstance()->getContents());
         }
     }
 }
