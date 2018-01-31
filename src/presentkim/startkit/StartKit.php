@@ -157,7 +157,7 @@ class StartKit extends PluginBase{
      * @return bool
      */
     public function isSupplied(string $playerName) : bool{
-        return Utils::in_arrayi($playerName, $this->supplied);
+        return Utils::in_arrayi($playerName, $this->supplieds);
     }
 
     /**
@@ -167,7 +167,7 @@ class StartKit extends PluginBase{
     public function setSupplied(string $playerName, bool $supplied = true) : void{
         if ($supplied) {
             if (!$this->isSupplied($playerName)) {
-                $this->supplieds[] = $supplied;
+                $this->supplieds[] = $playerName;
             }
         } else {
             for ($i = 0, $count = count($this->supplieds); $i < $count; ++$i) {
