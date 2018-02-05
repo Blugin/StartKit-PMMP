@@ -178,4 +178,18 @@ class StartKit extends PluginBase{
             }
         }
     }
+
+    /**
+     * @param string $name = ''
+     *
+     * @return PoolCommand
+     */
+    public function getCommand(string $name = '') : PoolCommand{
+        return $this->command;
+    }
+
+    /** @param PoolCommand $command */
+    public function setCommand(PoolCommand $command) : void{
+        $this->command = $command;
+    }
 }
