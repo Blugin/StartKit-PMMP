@@ -41,3 +41,11 @@ Main command : `/startkit <open | reset | lang | reload | save>`
 ## ChangeLog
 ### v1.0.0 [![Source](https://img.shields.io/badge/source-v1.0.0-blue.png?label=source)](https://github.com/PMMPPlugin/StartKit/tree/v1.0.0) [![Release](https://img.shields.io/github/downloads/PMMPPlugin/StartKit/v1.0.0/total.png?label=download&colorB=1fadad)](https://github.com/PMMPPlugin/StartKit/releases/v1.0.0)
 - First release
+  
+  
+---
+### v1.0.1 [![Source](https://img.shields.io/badge/source-v1.0.1-blue.png?label=source)](https://github.com/PMMPPlugin/StartKit/tree/v1.0.1) [![Release](https://img.shields.io/github/downloads/PMMPPlugin/StartKit/v1.0.1/total.png?label=download&colorB=1fadad)](https://github.com/PMMPPlugin/StartKit/releases/v1.0.1)
+- \[Added\] Add PluginCommand getter and setter
+- \[Added\] Add getters and setters to SubCommand
+- \[Fixed\] Add api 3.0.0-ALPHA11
+- \[Changed\] Show only subcommands that sender have permission to use
