@@ -7,7 +7,8 @@ command-generic-failure@in-game: "게임 내에서만 사용할 수 있습니다
 command-generic-failure@permission : "이 명령을 사용할 수 있는 권한이 없습니다"
 
 command-startkit: "startkit"
-command-startkit@usage: /startkit <open | reset | lang | reload | save>
+command-startkit@usage: "/startkit <{%0}>"
+command-startkit@usage-separator: " | "
 command-startkit@description: "StartKit의 메인 커맨드"
 command-startkit@aliases: ["sk"]
 

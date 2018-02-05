@@ -7,7 +7,8 @@ command-generic-failure@in-game: "Available in game only"
 command-generic-failure@permission : "You do not have permission to use this command"
 
 command-startkit: "startkit"
-command-startkit@usage: /startkit <open | reset | lang | reload | save>
+command-startkit@usage: "/startkit <{%0}>"
+command-startkit@usage-separator: " | "
 command-startkit@description: "Main command of StartKit"
 command-startkit@aliases: ["sk"]
 
