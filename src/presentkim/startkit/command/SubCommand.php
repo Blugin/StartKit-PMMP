@@ -2,6 +2,7 @@
 
 namespace presentkim\startkit\command;
 
+use pocketmine\Server;
 use pocketmine\command\CommandSender;
 use presentkim\startkit\StartKit as Plugin;
 use presentkim\startkit\util\{
@@ -55,7 +56,7 @@ abstract class SubCommand{
         if (!$this->checkPermission($sender)) {
             $sender->sendMessage(Plugin::$prefix . Translation::translate('command-generic-failure@permission'));
         } elseif (!$this->onCommand($sender, $args)) {
-            $sender->sendMessage(Plugin::$prefix . $this->usage);
+            $sender->sendMessage(Server::getInstance()->getLanguage()->translateString("commands.generic.usage", [$this->usage]));
         }
     }
 
