@@ -75,13 +75,14 @@ class StartKit extends PluginBase{
 
         if (file_exists($file = "{$dataFolder}config.dat")) {
             try{
-                $nbtStream = new BigEndianNBTStream();
-                $nbtStream->readCompressed(file_get_contents($file));
-                $namedTag = $nbtStream->getData();
-
+                $namedTag = (new BigEndianNBTStream())->readCompressed(file_get_contents($file));
+                if (!($namedTag instanceof CompoundTag)) {
+                    throw new \RuntimeException("Invalid data found in \"config.dat\", expected " . CompoundTag::class . ", got " . (is_object($namedTag) ? get_class($namedTag) : gettype($namedTag)));
+                }
                 $this->supplieds = $namedTag->getListTag('SuppliedList')->getAllValues();
 
                 $inventory = StartKitInventory::getInstance();
+                /** @var CompoundTag $tag */
                 foreach ($namedTag->getListTag('Kit') as $key => $tag) {
                     $inventory->setItem($tag->getByte('Slot'), Item::nbtDeserialize($tag));
                 }
@@ -131,11 +132,7 @@ class StartKit extends PluginBase{
                 }
             }
             $namedTag->setTag(new ListTag('Kit', $items, NBT::TAG_Compound));
-
-            $nbtStream = new BigEndianNBTStream();
-            $nbtStream->setData($namedTag);
-
-            file_put_contents($file = "{$dataFolder}config.dat", $nbtStream->writeCompressed());
+            file_put_contents($file = "{$dataFolder}config.dat", (new BigEndianNBTStream())->writeCompressed($namedTag));
         } catch (\Throwable $e){
             $this->getLogger()->warning('Error occurred saving config.dat');
         }
