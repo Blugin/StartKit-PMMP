@@ -78,12 +78,7 @@ class StartKit extends PluginBase{
                 $namedTag = (new BigEndianNBTStream())->readCompressed(file_get_contents($file));
                 if ($namedTag instanceof CompoundTag) {
                     $this->supplieds = $namedTag->getListTag('SuppliedList')->getAllValues();
-
-                    $inventory = StartKitInventory::getInstance();
-                    /** @var CompoundTag $itemTag */
-                    foreach ($namedTag->getListTag('Kit') as $key => $itemTag) {
-                        $inventory->setItem($itemTag->getByte('Slot'), Item::nbtDeserialize($itemTag));
-                    }
+                    StartKitInventory::nbtDeserialize($namedTag->getListTag('Kit'));
                 } else {
                     $this->getLogger()->critical("Invalid data found in \"config.dat\", expected " . CompoundTag::class . ", got " . (is_object($namedTag) ? get_class($namedTag) : gettype($namedTag)));
                 }
@@ -117,23 +112,14 @@ class StartKit extends PluginBase{
         }
 
         try{
-            $namedTag = new CompoundTag();
             $suppliedList = [];
             foreach ($this->supplieds as $key => $value) {
                 $suppliedList[] = new StringTag($value, $value);
             }
-            $namedTag->setTag(new ListTag('SuppliedList', $suppliedList, NBT::TAG_String));
-
-            $items = [];
-            $inventory = StartKitInventory::getInstance();
-            for ($slot = 0; $slot < 27; ++$slot) {
-                $item = $inventory->getItem($slot);
-                if (!$item->isNull()) {
-                    $items[] = $item->nbtSerialize($slot);
-                }
-            }
-            $namedTag->setTag(new ListTag('Kit', $items, NBT::TAG_Compound));
-            file_put_contents($file = "{$dataFolder}config.dat", (new BigEndianNBTStream())->writeCompressed($namedTag));
+            file_put_contents("{$dataFolder}config.dat", (new BigEndianNBTStream())->writeCompressed(new CompoundTag('StartKit', [
+              new ListTag('SuppliedList', $suppliedList, NBT::TAG_String),
+              StartKitInventory::getInstance()->nbtSerialize(),
+            ])));
         } catch (\Throwable $e){
             $this->getLogger()->warning('Error occurred saving config.dat');
         }
