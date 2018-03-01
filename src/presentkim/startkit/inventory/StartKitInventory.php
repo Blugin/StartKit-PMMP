@@ -10,7 +10,7 @@ use pocketmine\inventory\{
 use pocketmine\math\Vector3;
 use pocketmine\nbt\NetworkLittleEndianNBTStream;
 use pocketmine\nbt\tag\{
-  CompoundTag, IntTag, StringTag
+  CompoundTag, IntTag, ListTag, StringTag
 };
 use pocketmine\network\mcpe\protocol\{
   types\WindowTypes, UpdateBlockPacket, ContainerOpenPacket, BlockEntityDataPacket
@@ -125,5 +125,35 @@ class StartKitInventory extends CustomInventory{
     /** @return int */
     public function getNetworkType() : int{
         return WindowTypes::CONTAINER;
+    }
+
+    /**
+     * @param string $tagName
+     *
+     * @return ListTag
+     */
+    public function nbtSerialize(string $tagName = 'Kit') : ListTag{
+        $tag = new ListTag($tagName, [], NBT::TAG_Compound);
+        for ($slot = 0; $slot < 27; ++$slot) {
+            $item = $this->getItem($slot);
+            if (!$item->isNull()) {
+                $tag->push($item->nbtSerialize($slot));
+            }
+        }
+        return $tag;
+    }
+
+    /**
+     * @param ListTag $tag
+     *
+     * @return StartKitInventory
+     */
+    public static function nbtDeserialize(ListTag $tag) : StartKitInventory{
+        $inventory = new StartKitInventory();
+        /** @var CompoundTag $itemTag */
+        foreach ($tag as $i => $itemTag) {
+            $inventory->setItem($itemTag->getByte("Slot"), Item::nbtDeserialize($itemTag));
+        }
+        return $inventory;
     }
 }
