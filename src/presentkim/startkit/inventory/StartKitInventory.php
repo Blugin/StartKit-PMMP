@@ -7,8 +7,11 @@ use pocketmine\block\Block;
 use pocketmine\inventory\{
   BaseInventory, CustomInventory
 };
+use pocketmine\item\Item;
 use pocketmine\math\Vector3;
-use pocketmine\nbt\NetworkLittleEndianNBTStream;
+use pocketmine\nbt\{
+  NBT, NetworkLittleEndianNBTStream
+};
 use pocketmine\nbt\tag\{
   CompoundTag, IntTag, ListTag, StringTag
 };
