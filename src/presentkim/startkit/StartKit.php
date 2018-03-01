@@ -112,12 +112,10 @@ class StartKit extends PluginBase{
         }
 
         try{
-            $suppliedList = [];
-            foreach ($this->supplieds as $key => $value) {
-                $suppliedList[] = new StringTag($value, $value);
-            }
             file_put_contents("{$dataFolder}config.dat", (new BigEndianNBTStream())->writeCompressed(new CompoundTag('StartKit', [
-              new ListTag('SuppliedList', $suppliedList, NBT::TAG_String),
+              new ListTag('SuppliedList', array_map(function (String $value){
+                  return new StringTag($value, $value);
+              }, array_values($this->supplieds)), NBT::TAG_String),
               StartKitInventory::getInstance()->nbtSerialize(),
             ])));
         } catch (\Throwable $e){
