@@ -20,13 +20,10 @@ use presentkim\startkit\util\Translation;
 
 class StartKitInventory extends CustomInventory{
 
-    /** @var NetworkLittleEndianNBTStream|null */
-    private static $nbtWriter = null;
-
-    /** @var self */
+    /** @var StartKitInventory */
     private static $instance = null;
 
-    /** @return self */
+    /** @return StartKitInventory */
     public static function getInstance() : self{
         if (self::$instance === null) {
             self::$instance = new StartKitInventory();
@@ -50,10 +47,6 @@ class StartKitInventory extends CustomInventory{
           new IntTag('z', 0),
           new StringTag('CustomName', ''),
         ]);
-
-        if (self::$nbtWriter === null) {
-            self::$nbtWriter = new NetworkLittleEndianNBTStream();
-        }
     }
 
     /** @param Player $who */
@@ -83,7 +76,7 @@ class StartKitInventory extends CustomInventory{
         $pk->x = $this->vectors[$key]->x;
         $pk->y = $this->vectors[$key]->y;
         $pk->z = $this->vectors[$key]->z;
-        $pk->namedtag = self::$nbtWriter->write($this->nbt);
+        $pk->namedtag = (new NetworkLittleEndianNBTStream())->write($this->nbt);
         $who->sendDataPacket($pk);
 
 
