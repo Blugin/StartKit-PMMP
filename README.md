@@ -20,10 +20,14 @@ Main command : `/startkit <open | reset | lang | reload | save>`
 | Lang       | \<language prefix\> | Load default lang file   |
 | Reload     |                     | Reload all data          |
 | Save       |                     | Save all data            |
-
-
-
-
+  
+<br/><br/>
+  
+## Required API
+- PocketMine-MP : higher than [Build #745](https://jenkins.pmmp.io/job/PocketMine-MP/745)
+  
+<br/><br/>
+  
 ## Permission
 | permission          | default  | description       |
 | ------------------- | -------- | ----------------- |
@@ -34,18 +38,3 @@ Main command : `/startkit <open | reset | lang | reload | save>`
 | startkit.cmd.lang   | OP       | lang subcommand   |
 | startkit.cmd.reload | OP       | reload subcommand |
 | startkit.cmd.save   | OP       | save subcommand   |
-
-
-
-
-## ChangeLog
-### v1.0.0 [![Source](https://img.shields.io/badge/source-v1.0.0-blue.png?label=source)](https://github.com/PMMPPlugin/StartKit/tree/v1.0.0) [![Release](https://img.shields.io/github/downloads/PMMPPlugin/StartKit/v1.0.0/total.png?label=download&colorB=1fadad)](https://github.com/PMMPPlugin/StartKit/releases/v1.0.0)
-- First release
-  
-  
----
-### v1.0.1 [![Source](https://img.shields.io/badge/source-v1.0.1-blue.png?label=source)](https://github.com/PMMPPlugin/StartKit/tree/v1.0.1) [![Release](https://img.shields.io/github/downloads/PMMPPlugin/StartKit/v1.0.1/total.png?label=download&colorB=1fadad)](https://github.com/PMMPPlugin/StartKit/releases/v1.0.1)
-- \[Added\] Add PluginCommand getter and setter
-- \[Added\] Add getters and setters to SubCommand
-- \[Fixed\] Add api 3.0.0-ALPHA11
-- \[Changed\] Show only subcommands that sender have permission to use
