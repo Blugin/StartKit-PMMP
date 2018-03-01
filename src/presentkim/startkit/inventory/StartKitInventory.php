@@ -39,7 +39,7 @@ class StartKitInventory extends CustomInventory{
 
     private function __construct(){
         parent::__construct(new Vector3(0, 0, 0), [], 27, null);
-
+        self::$instance = $this;
         $this->nbt = new CompoundTag('', [
           new StringTag('id', 'Chest'),
           new IntTag('x', 0),
