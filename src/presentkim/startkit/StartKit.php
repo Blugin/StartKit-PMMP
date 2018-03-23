@@ -22,14 +22,14 @@ use presentkim\startkit\util\{
 
 class StartKit extends PluginBase{
 
-    /** @var self */
+    /** @var StartKit */
     private static $instance = null;
 
     /** @var string */
     public static $prefix = '';
 
-    /** @return self */
-    public static function getInstance() : self{
+    /** @return StartKit */
+    public static function getInstance() : StartKit{
         return self::$instance;
     }
 
