@@ -1,9 +1,9 @@
 <img src="./assets/icon/index.svg" height="256" width="256">  
 
-[![License](https://img.shields.io/github/license/PMMPPlugin/StartKit.svg?label=License)](LICENSE)
-[![Poggit](https://poggit.pmmp.io/ci.shield/PMMPPlugin/StartKit/StartKit)](https://poggit.pmmp.io/ci/PMMPPlugin/StartKit)
-[![Release](https://img.shields.io/github/release/PMMPPlugin/StartKit.svg?label=Release)](https://github.com/PMMPPlugin/StartKit/releases/latest)
-[![Download](https://img.shields.io/github/downloads/PMMPPlugin/StartKit/total.svg?label=Download)](https://github.com/PMMPPlugin/StartKit/releases/latest)
+[![License](https://img.shields.io/github/license/Blugin/StartKit-PMMP.svg?label=License)](LICENSE)
+[![Poggit](https://poggit.pmmp.io/ci.shield/Blugin/StartKit-PMMP/StartKit)](https://poggit.pmmp.io/ci/Blugin/StartKit-PMMP)
+[![Release](https://img.shields.io/github/release/Blugin/StartKit-PMMP.svg?label=Release)](https://github.com/Blugin/StartKit-PMMP/releases/latest)
+[![Download](https://img.shields.io/github/downloads/Blugin/StartKit-PMMP/total.svg?label=Download)](https://github.com/Blugin/StartKit-PMMP/releases/latest)
 
 
 A plugin give start kit to player
