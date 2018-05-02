@@ -44,31 +44,6 @@ class StartKit extends PluginBase implements CommandExecutor{
     }
 
     public function onEnable() : void{
-        $this->load();
-        $this->getServer()->getPluginManager()->registerEvents(new PlayerEventListener(), $this);
-    }
-
-    public function onDisable() : void{
-        $this->save();
-    }
-
-    /**
-     * @param CommandSender $sender
-     * @param Command       $command
-     * @param string        $label
-     * @param string[]      $args
-     *
-     * @return bool
-     */
-    public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool{
-        if ($sender instanceof Player) {
-            $sender->addWindow(StartKitInventory::getInstance());
-        } else {
-            $sender->sendMessage($this->language->translate('commands.generic.onlyPlayer'));
-        }
-    }
-
-    public function load() : void{
         if (!file_exists($dataFolder = $this->getDataFolder())) {
             mkdir($dataFolder, 0777, true);
         }
@@ -100,22 +75,40 @@ class StartKit extends PluginBase implements CommandExecutor{
                 $this->getLogger()->warning('Error occurred loading config.dat');
             }
         }
+
+        $this->getServer()->getPluginManager()->registerEvents(new PlayerEventListener(), $this);
     }
 
-    public function save() : void{
+    public function onDisable() : void{
         if (!file_exists($dataFolder = $this->getDataFolder())) {
             mkdir($dataFolder, 0777, true);
         }
 
         try{
             file_put_contents("{$dataFolder}config.dat", (new BigEndianNBTStream())->writeCompressed(new CompoundTag('StartKit', [
-              new ListTag('SuppliedList', array_map(function (String $value){
-                  return new StringTag($value, $value);
-              }, array_values($this->supplieds)), NBT::TAG_String),
-              StartKitInventory::getInstance()->nbtSerialize(),
+                new ListTag('SuppliedList', array_map(function (String $value){
+                    return new StringTag($value, $value);
+                }, array_values($this->supplieds)), NBT::TAG_String),
+                StartKitInventory::getInstance()->nbtSerialize(),
             ])));
         } catch (\Throwable $e){
             $this->getLogger()->warning('Error occurred saving config.dat');
+        }
+    }
+
+    /**
+     * @param CommandSender $sender
+     * @param Command       $command
+     * @param string        $label
+     * @param string[]      $args
+     *
+     * @return bool
+     */
+    public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool{
+        if ($sender instanceof Player) {
+            $sender->addWindow(StartKitInventory::getInstance());
+        } else {
+            $sender->sendMessage($this->language->translate('commands.generic.onlyPlayer'));
         }
     }
 
