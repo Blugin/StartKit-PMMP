@@ -14,8 +14,8 @@ class PlayerEventListener implements Listener{
     /** @var StartKit */
     private $owner = null;
 
-    public function __construct(){
-        $this->owner = StartKit::getInstance();
+    public function __construct(StartKit $owner){
+        $this->owner = $owner;
     }
 
     /** @param PlayerJoinEvent $event */

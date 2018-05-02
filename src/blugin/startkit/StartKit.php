@@ -74,7 +74,7 @@ class StartKit extends PluginBase implements CommandExecutor{
             }
         }
 
-        $this->getServer()->getPluginManager()->registerEvents(new PlayerEventListener(), $this);
+        $this->getServer()->getPluginManager()->registerEvents(new PlayerEventListener($this), $this);
     }
 
     public function onDisable() : void{
