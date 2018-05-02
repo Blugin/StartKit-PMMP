@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace blugin\startkit\inventory;
 
 use pocketmine\Player;
