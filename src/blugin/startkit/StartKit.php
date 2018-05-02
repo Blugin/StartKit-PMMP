@@ -2,7 +2,6 @@
 
 namespace blugin\startkit;
 
-use pocketmine\item\Item;
 use pocketmine\plugin\PluginBase;
 use pocketmine\nbt\{
   NBT, BigEndianNBTStream
@@ -16,9 +15,7 @@ use blugin\startkit\command\subcommands\{
 };
 use blugin\startkit\inventory\StartKitInventory;
 use blugin\startkit\listener\PlayerEventListener;
-use blugin\startkit\util\{
-  Translation, Utils
-};
+use blugin\startkit\lang\PluginLang;
 
 class StartKit extends PluginBase{
 
@@ -35,6 +32,9 @@ class StartKit extends PluginBase{
 
     /** @var PoolCommand */
     private $command;
+
+    /** @var PluginLang */
+    private $language;
 
     /** @var String[] */
     private $supplieds = [];
@@ -59,19 +59,22 @@ class StartKit extends PluginBase{
         if (!file_exists($dataFolder = $this->getDataFolder())) {
             mkdir($dataFolder, 0777, true);
         }
+        $this->language = new PluginLang($this);
 
-        $langfilename = $dataFolder . 'lang.yml';
-        if (!file_exists($langfilename)) {
-            $resource = $this->getResource('lang/eng.yml');
-            fwrite($fp = fopen("{$dataFolder}lang.yml", "wb"), $contents = stream_get_contents($resource));
-            fclose($fp);
-            Translation::loadFromContents($contents);
-        } else {
-            Translation::load($langfilename);
+        if ($this->command == null) {
+            $this->command = new PoolCommand($this, 'startkit');
+            $this->command->createSubCommand(OpenSubCommand::class);
+            $this->command->createSubCommand(ResetSubCommand::class);
+            $this->command->createSubCommand(LangSubCommand::class);
+            $this->command->createSubCommand(ReloadSubCommand::class);
+            $this->command->createSubCommand(SaveSubCommand::class);
         }
-
-        self::$prefix = Translation::translate('prefix');
-        $this->reloadCommand();
+        $this->command->updateTranslation();
+        $this->command->updateSudCommandTranslation();
+        if ($this->command->isRegistered()) {
+            $this->getServer()->getCommandMap()->unregister($this->command);
+        }
+        $this->getServer()->getCommandMap()->register(strtolower($this->getName()), $this->command);
 
         if (file_exists($file = "{$dataFolder}config.dat")) {
             try{
@@ -87,23 +90,6 @@ class StartKit extends PluginBase{
                 $this->getLogger()->warning('Error occurred loading config.dat');
             }
         }
-    }
-
-    public function reloadCommand() : void{
-        if ($this->command == null) {
-            $this->command = new PoolCommand($this, 'startkit');
-            $this->command->createSubCommand(OpenSubCommand::class);
-            $this->command->createSubCommand(ResetSubCommand::class);
-            $this->command->createSubCommand(LangSubCommand::class);
-            $this->command->createSubCommand(ReloadSubCommand::class);
-            $this->command->createSubCommand(SaveSubCommand::class);
-        }
-        $this->command->updateTranslation();
-        $this->command->updateSudCommandTranslation();
-        if ($this->command->isRegistered()) {
-            $this->getServer()->getCommandMap()->unregister($this->command);
-        }
-        $this->getServer()->getCommandMap()->register(strtolower($this->getName()), $this->command);
     }
 
     public function save() : void{
@@ -164,14 +150,28 @@ class StartKit extends PluginBase{
     /**
      * @param string $name = ''
      *
-     * @return PoolCommand
+     * @return PluginCommand
      */
-    public function getCommand(string $name = '') : PoolCommand{
+    public function getCommand(string $name = '') : PluginCommand{
         return $this->command;
     }
 
-    /** @param PoolCommand $command */
-    public function setCommand(PoolCommand $command) : void{
-        $this->command = $command;
+    /**
+     * @return PluginLang
+     */
+    public function getLanguage() : PluginLang{
+        return $this->language;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSourceFolder() : string{
+        $pharPath = \Phar::running();
+        if (empty($pharPath)) {
+            return dirname(__FILE__, 4) . DIRECTORY_SEPARATOR;
+        } else {
+            return $pharPath . DIRECTORY_SEPARATOR;
+        }
     }
 }
