@@ -11,7 +11,7 @@ use pocketmine\nbt\tag\{
 };
 use blugin\startkit\command\PoolCommand;
 use blugin\startkit\command\subcommands\{
-  OpenSubCommand, ResetSubCommand, LangSubCommand, ReloadSubCommand, SaveSubCommand
+  OpenSubCommand, ResetSubCommand
 };
 use blugin\startkit\inventory\StartKitInventory;
 use blugin\startkit\listener\PlayerEventListener;
@@ -65,9 +65,6 @@ class StartKit extends PluginBase{
             $this->command = new PoolCommand($this, 'startkit');
             $this->command->createSubCommand(OpenSubCommand::class);
             $this->command->createSubCommand(ResetSubCommand::class);
-            $this->command->createSubCommand(LangSubCommand::class);
-            $this->command->createSubCommand(ReloadSubCommand::class);
-            $this->command->createSubCommand(SaveSubCommand::class);
         }
         $this->command->updateTranslation();
         $this->command->updateSudCommandTranslation();

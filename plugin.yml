@@ -18,13 +18,4 @@ permissions:
       startkit.cmd.default:
         description:       StartKit command - reset
         default:           op
-      startkit.cmd.lang:
-        description:       StartKit command - lang
-        default:           op
-      startkit.cmd.reload:
-        description:       StartKit command - reload
-        default:           op
-      startkit.cmd.save:
-        description:       StartKit command - save
-        default:           op
 ...
