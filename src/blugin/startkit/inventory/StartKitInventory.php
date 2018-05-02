@@ -19,7 +19,7 @@ use pocketmine\network\mcpe\protocol\{
   types\WindowTypes, UpdateBlockPacket, ContainerOpenPacket, BlockEntityDataPacket
 };
 use pocketmine\tile\Spawnable;
-use blugin\startkit\util\Translation;
+use blugin\startkit\StartKit;
 
 class StartKitInventory extends CustomInventory{
 
@@ -48,7 +48,7 @@ class StartKitInventory extends CustomInventory{
           new IntTag('x', 0),
           new IntTag('y', 0),
           new IntTag('z', 0),
-          new StringTag('CustomName', ''),
+          new StringTag('CustomName', StartKit::getInstance()->getLanguage()->translate('startkit.name')),
         ]);
     }
 
@@ -73,7 +73,6 @@ class StartKitInventory extends CustomInventory{
         $this->nbt->setInt('x', $this->vectors[$key]->x);
         $this->nbt->setInt('y', $this->vectors[$key]->y);
         $this->nbt->setInt('z', $this->vectors[$key]->z);
-        $this->nbt->setString('CustomName', Translation::translate('start-kit'));
 
         $pk = new BlockEntityDataPacket();
         $pk->x = $this->vectors[$key]->x;

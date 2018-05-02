@@ -25,9 +25,6 @@ class StartKit extends PluginBase implements CommandExecutor{
     /** @var StartKit */
     private static $instance = null;
 
-    /** @var string */
-    public static $prefix = '';
-
     /** @return StartKit */
     public static function getInstance() : StartKit{
         return self::$instance;
@@ -43,10 +40,7 @@ class StartKit extends PluginBase implements CommandExecutor{
     private $supplieds = [];
 
     public function onLoad() : void{
-        if (self::$instance === null) {
-            self::$instance = $this;
-            Translation::loadFromResource($this->getResource('lang/eng.yml'), true);
-        }
+        self::$instance = $this;
     }
 
     public function onEnable() : void{
