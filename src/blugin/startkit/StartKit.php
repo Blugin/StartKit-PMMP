@@ -47,17 +47,17 @@ class StartKit extends PluginBase implements CommandExecutor{
         }
         $this->language = new PluginLang($this);
 
-        if ($this->command == null) {
-            $this->command = new PluginCommand($this, 'startkit');
-            $this->command->createSubCommand(OpenSubCommand::class);
-            $this->command->createSubCommand(ResetSubCommand::class);
-        }
-        $this->command->updateTranslation();
-        $this->command->updateSudCommandTranslation();
-        if ($this->command->isRegistered()) {
+        if ($this->command !== null) {
             $this->getServer()->getCommandMap()->unregister($this->command);
         }
-        $this->getServer()->getCommandMap()->register(strtolower($this->getName()), $this->command);
+        $this->command = new PluginCommand($this->language->translate('commands.startkit'), $this);
+        $this->command->setPermission('startkit.cmd');
+        $this->command->setDescription($this->language->translate('commands.startkit.description'));
+        $this->command->setUsage($this->language->translate('commands.startkit.usage'));
+        if (is_array($aliases = $this->language->getArray('commands.startkit.aliases'))) {
+            $this->command->setAliases($aliases);
+        }
+        $this->getServer()->getCommandMap()->register('startkit', $this->command);
 
         if (file_exists($file = "{$dataFolder}config.dat")) {
             try{
