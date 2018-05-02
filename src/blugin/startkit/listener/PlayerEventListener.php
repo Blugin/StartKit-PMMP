@@ -4,16 +4,16 @@ namespace blugin\startkit\listener;
 
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
-use blugin\startkit\StartKit as Plugin;
+use blugin\startkit\StartKit;
 use blugin\startkit\inventory\StartKitInventory;
 
 class PlayerEventListener implements Listener{
 
-    /** @var Plugin */
+    /** @var StartKit */
     private $owner = null;
 
     public function __construct(){
-        $this->owner = Plugin::getInstance();
+        $this->owner = StartKit::getInstance();
     }
 
     /** @param PlayerJoinEvent $event */
