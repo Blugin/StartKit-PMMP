@@ -11,11 +11,4 @@ permissions:
   startkit.cmd:
     description:           StartKit command
     default:               op
-    children:
-      startkit.cmd.open:
-        description:       StartKit command - open
-        default:           op
-      startkit.cmd.default:
-        description:       StartKit command - reset
-        default:           op
 ...
