@@ -12,10 +12,6 @@ use pocketmine\nbt\{
 use pocketmine\nbt\tag\{
   CompoundTag, ListTag, StringTag
 };
-use blugin\startkit\command\PoolCommand;
-use blugin\startkit\command\subcommands\{
-  OpenSubCommand, ResetSubCommand
-};
 use blugin\startkit\inventory\StartKitInventory;
 use blugin\startkit\listener\PlayerEventListener;
 use blugin\startkit\lang\PluginLang;
@@ -30,7 +26,7 @@ class StartKit extends PluginBase implements CommandExecutor{
         return self::$instance;
     }
 
-    /** @var PoolCommand */
+    /** @var PluginCommand */
     private $command;
 
     /** @var PluginLang */
@@ -50,7 +46,7 @@ class StartKit extends PluginBase implements CommandExecutor{
         $this->language = new PluginLang($this);
 
         if ($this->command == null) {
-            $this->command = new PoolCommand($this, 'startkit');
+            $this->command = new PluginCommand($this, 'startkit');
             $this->command->createSubCommand(OpenSubCommand::class);
             $this->command->createSubCommand(ResetSubCommand::class);
         }
