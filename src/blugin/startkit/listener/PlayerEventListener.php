@@ -1,11 +1,11 @@
 <?php
 
-namespace presentkim\startkit\listener;
+namespace blugin\startkit\listener;
 
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
-use presentkim\startkit\StartKit as Plugin;
-use presentkim\startkit\inventory\StartKitInventory;
+use blugin\startkit\StartKit as Plugin;
+use blugin\startkit\inventory\StartKitInventory;
 
 class PlayerEventListener implements Listener{
 

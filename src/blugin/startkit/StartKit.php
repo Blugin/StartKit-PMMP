@@ -1,6 +1,6 @@
 <?php
 
-namespace presentkim\startkit;
+namespace blugin\startkit;
 
 use pocketmine\item\Item;
 use pocketmine\plugin\PluginBase;
@@ -10,13 +10,13 @@ use pocketmine\nbt\{
 use pocketmine\nbt\tag\{
   CompoundTag, ListTag, StringTag
 };
-use presentkim\startkit\command\PoolCommand;
-use presentkim\startkit\command\subcommands\{
+use blugin\startkit\command\PoolCommand;
+use blugin\startkit\command\subcommands\{
   OpenSubCommand, ResetSubCommand, LangSubCommand, ReloadSubCommand, SaveSubCommand
 };
-use presentkim\startkit\inventory\StartKitInventory;
-use presentkim\startkit\listener\PlayerEventListener;
-use presentkim\startkit\util\{
+use blugin\startkit\inventory\StartKitInventory;
+use blugin\startkit\listener\PlayerEventListener;
+use blugin\startkit\util\{
   Translation, Utils
 };
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace presentkim\startkit\inventory;
+namespace blugin\startkit\inventory;
 
 use pocketmine\Player;
 use pocketmine\block\Block;
@@ -19,7 +19,7 @@ use pocketmine\network\mcpe\protocol\{
   types\WindowTypes, UpdateBlockPacket, ContainerOpenPacket, BlockEntityDataPacket
 };
 use pocketmine\tile\Spawnable;
-use presentkim\startkit\util\Translation;
+use blugin\startkit\util\Translation;
 
 class StartKitInventory extends CustomInventory{
 

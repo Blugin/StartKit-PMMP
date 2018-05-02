@@ -1,11 +1,11 @@
 <?php
 
-namespace presentkim\startkit\command;
+namespace blugin\startkit\command;
 
 use pocketmine\Server;
 use pocketmine\command\CommandSender;
-use presentkim\startkit\StartKit as Plugin;
-use presentkim\startkit\util\{
+use blugin\startkit\StartKit as Plugin;
+use blugin\startkit\util\{
   Translation, Utils
 };
 

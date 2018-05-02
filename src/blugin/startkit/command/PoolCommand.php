@@ -1,13 +1,13 @@
 <?php
 
-namespace presentkim\startkit\command;
+namespace blugin\startkit\command;
 
 
 use pocketmine\command\{
   Command, PluginCommand, CommandExecutor, CommandSender, ConsoleCommandSender
 };
-use presentkim\startkit\StartKit as Plugin;
-use presentkim\startkit\util\Translation;
+use blugin\startkit\StartKit as Plugin;
+use blugin\startkit\util\Translation;
 
 class PoolCommand extends PluginCommand implements CommandExecutor{
 

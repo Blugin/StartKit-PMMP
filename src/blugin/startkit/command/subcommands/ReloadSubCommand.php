@@ -1,17 +1,17 @@
 <?php
 
-namespace presentkim\startkit\command\subcommands;
+namespace blugin\startkit\command\subcommands;
 
 use pocketmine\command\CommandSender;
-use presentkim\startkit\StartKit as Plugin;
-use presentkim\startkit\command\{
+use blugin\startkit\StartKit as Plugin;
+use blugin\startkit\command\{
   PoolCommand, SubCommand
 };
 
-class SaveSubCommand extends SubCommand{
+class ReloadSubCommand extends SubCommand{
 
     public function __construct(PoolCommand $owner){
-        parent::__construct($owner, 'save');
+        parent::__construct($owner, 'reload');
     }
 
     /**
@@ -21,7 +21,7 @@ class SaveSubCommand extends SubCommand{
      * @return bool
      */
     public function onCommand(CommandSender $sender, array $args) : bool{
-        $this->plugin->save();
+        $this->plugin->load();
         $sender->sendMessage(Plugin::$prefix . $this->translate('success'));
 
         return true;

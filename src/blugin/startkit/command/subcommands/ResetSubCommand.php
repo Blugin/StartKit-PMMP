@@ -1,10 +1,10 @@
 <?php
 
-namespace presentkim\startkit\command\subcommands;
+namespace blugin\startkit\command\subcommands;
 
 use pocketmine\command\CommandSender;
-use presentkim\startkit\StartKit as Plugin;
-use presentkim\startkit\command\{
+use blugin\startkit\StartKit as Plugin;
+use blugin\startkit\command\{
   PoolCommand, SubCommand
 };
 

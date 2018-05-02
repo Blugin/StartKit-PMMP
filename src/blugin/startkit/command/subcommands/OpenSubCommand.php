@@ -1,16 +1,16 @@
 <?php
 
-namespace presentkim\startkit\command\subcommands;
+namespace blugin\startkit\command\subcommands;
 
 use pocketmine\Player;
 use pocketmine\command\CommandSender;
 use pocketmine\item\ItemFactory;
-use presentkim\startkit\StartKit as Plugin;
-use presentkim\startkit\command\{
+use blugin\startkit\StartKit as Plugin;
+use blugin\startkit\command\{
   PoolCommand, SubCommand
 };
-use presentkim\startkit\inventory\StartKitInventory;
-use presentkim\startkit\util\Translation;
+use blugin\startkit\inventory\StartKitInventory;
+use blugin\startkit\util\Translation;
 
 class OpenSubCommand extends SubCommand{
 

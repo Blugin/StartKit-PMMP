@@ -1,6 +1,6 @@
 <?php
 
-namespace presentkim\startkit\util;
+namespace blugin\startkit\util;
 
 class Utils{
 

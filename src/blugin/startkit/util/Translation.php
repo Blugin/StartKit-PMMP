@@ -1,8 +1,8 @@
 <?php
 
-namespace presentkim\startkit\util;
+namespace blugin\startkit\util;
 
-use presentkim\startkit\StartKit as Plugin;
+use blugin\startkit\StartKit as Plugin;
 
 class Translation{
 
