@@ -3,6 +3,9 @@
 namespace blugin\startkit;
 
 use pocketmine\plugin\PluginBase;
+use pocketmine\command\{
+    Command, PluginCommand, CommandExecutor, CommandSender
+};
 use pocketmine\nbt\{
   NBT, BigEndianNBTStream
 };
@@ -17,7 +20,7 @@ use blugin\startkit\inventory\StartKitInventory;
 use blugin\startkit\listener\PlayerEventListener;
 use blugin\startkit\lang\PluginLang;
 
-class StartKit extends PluginBase{
+class StartKit extends PluginBase implements CommandExecutor{
 
     /** @var StartKit */
     private static $instance = null;
@@ -53,6 +56,22 @@ class StartKit extends PluginBase{
 
     public function onDisable() : void{
         $this->save();
+    }
+
+    /**
+     * @param CommandSender $sender
+     * @param Command       $command
+     * @param string        $label
+     * @param string[]      $args
+     *
+     * @return bool
+     */
+    public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool{
+        if ($sender instanceof Player) {
+            $sender->addWindow(StartKitInventory::getInstance());
+        } else {
+            $sender->sendMessage($this->language->translate('commands.generic.onlyPlayer'));
+        }
     }
 
     public function load() : void{
