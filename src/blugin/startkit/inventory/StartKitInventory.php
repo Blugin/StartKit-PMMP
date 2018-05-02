@@ -3,7 +3,9 @@
 namespace blugin\startkit\inventory;
 
 use pocketmine\Player;
-use pocketmine\block\Block;
+use pocketmine\block\{
+    Block, BlockFactory
+};
 use pocketmine\inventory\{
   BaseInventory, CustomInventory
 };
@@ -62,11 +64,11 @@ class StartKitInventory extends CustomInventory{
         }
 
         $pk = new UpdateBlockPacket();
-        $pk->blockId = Block::CHEST;
-        $pk->blockData = 0;
         $pk->x = $this->vectors[$key]->x;
         $pk->y = $this->vectors[$key]->y;
         $pk->z = $this->vectors[$key]->z;
+        $pk->blockRuntimeId = BlockFactory::toStaticRuntimeId(Block::CHEST);
+        $pk->flags = UpdateBlockPacket::FLAG_NONE;
         $who->sendDataPacket($pk);
 
 
@@ -103,8 +105,8 @@ class StartKitInventory extends CustomInventory{
         $pk->x = $this->vectors[$key]->x;
         $pk->y = $this->vectors[$key]->y;
         $pk->z = $this->vectors[$key]->z;
-        $pk->blockId = $block->getId();
-        $pk->blockData = $block->getDamage();
+        $pk->blockRuntimeId = BlockFactory::toStaticRuntimeId($block->getId(), $block->getDamage());
+        $pk->flags = UpdateBlockPacket::FLAG_NONE;
         $who->sendDataPacket($pk);
 
         $tile = $who->getLevel()->getTile($this->vectors[$key]);
