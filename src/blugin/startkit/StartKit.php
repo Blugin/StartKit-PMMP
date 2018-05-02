@@ -108,6 +108,7 @@ class StartKit extends PluginBase implements CommandExecutor{
         } else {
             $sender->sendMessage($this->language->translate('commands.generic.onlyPlayer'));
         }
+        return true;
     }
 
     /** @return String[] */
