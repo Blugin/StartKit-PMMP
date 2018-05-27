@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace blugin\startkit;
 
+use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\command\{
     Command, PluginCommand, CommandExecutor, CommandSender
