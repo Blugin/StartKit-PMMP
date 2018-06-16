@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace blugin\startkit\listener;
+namespace kim\present\startkit\listener;
 
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
-use blugin\startkit\StartKit;
-use blugin\startkit\inventory\StartKitInventory;
+use kim\present\startkit\StartKit;
+use kim\present\startkit\inventory\StartKitInventory;
 
 class PlayerEventListener implements Listener{
 

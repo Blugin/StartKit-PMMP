@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace blugin\startkit\lang;
+namespace kim\present\startkit\lang;
 
-use blugin\startkit\StartKit;
+use kim\present\startkit\StartKit;
 
 class PluginLang{
 

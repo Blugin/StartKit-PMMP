@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace blugin\startkit\util;
+namespace kim\present\startkit\util;
 
 class Utils{
 
