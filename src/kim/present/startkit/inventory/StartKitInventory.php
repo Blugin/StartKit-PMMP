@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace blugin\startkit\inventory;
+namespace kim\present\startkit\inventory;
 
 use pocketmine\Player;
 use pocketmine\block\{
@@ -23,7 +23,7 @@ use pocketmine\network\mcpe\protocol\{
   types\WindowTypes, UpdateBlockPacket, ContainerOpenPacket, BlockEntityDataPacket
 };
 use pocketmine\tile\Spawnable;
-use blugin\startkit\StartKit;
+use kim\present\startkit\StartKit;
 
 class StartKitInventory extends CustomInventory{
 

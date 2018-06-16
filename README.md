@@ -1,7 +1,7 @@
-# StartKit [![license](https://img.shields.io/github/license/Blugin/StartKit-PMMP.svg?label=License)](LICENSE)
+# StartKit [![license](https://img.shields.io/github/license/PresentKim/StartKit-PMMP.svg?label=License)](LICENSE)
 <img src="./assets/icon/index.svg" height="256" width="256">  
 
-[![release](https://img.shields.io/github/release/Blugin/StartKit-PMMP.svg?label=Release) ![download](https://img.shields.io/github/downloads/Blugin/StartKit-PMMP/total.svg?label=Download)](https://github.com/Blugin/StartKit-PMMP/releases/latest)
+[![release](https://img.shields.io/github/release/PresentKim/StartKit-PMMP.svg?label=Release) ![download](https://img.shields.io/github/downloads/PresentKim/StartKit-PMMP/total.svg?label=Download)](https://github.com/PresentKim/StartKit-PMMP/releases/latest)
   
 <br/><br/>
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace blugin\startkit;
+namespace kim\present\startkit;
 
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
@@ -15,10 +15,10 @@ use pocketmine\nbt\{
 use pocketmine\nbt\tag\{
   CompoundTag, ListTag, StringTag
 };
-use blugin\startkit\inventory\StartKitInventory;
-use blugin\startkit\listener\PlayerEventListener;
-use blugin\startkit\lang\PluginLang;
-use blugin\startkit\util\Utils;
+use kim\present\startkit\inventory\StartKitInventory;
+use kim\present\startkit\listener\PlayerEventListener;
+use kim\present\startkit\lang\PluginLang;
+use kim\present\startkit\util\Utils;
 
 class StartKit extends PluginBase implements CommandExecutor{
 
