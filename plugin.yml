@@ -4,7 +4,7 @@ main:                      kim\present\startkit\StartKit
 version:                   1.0.3
 api:                       [3.0.0, 3.0.0-ALPHA12]
 author:                    PresentKim
-website:                   https://github.com/Blugin/StartKit-PMMP
+website:                   https://github.com/PresentKim/StartKit-PMMP
 description:               A plugin give start kit to player
 
 permissions:
