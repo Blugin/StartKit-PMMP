@@ -4,162 +4,162 @@ declare(strict_types=1);
 
 namespace kim\present\startkit\inventory;
 
-use pocketmine\Player;
+use kim\present\startkit\StartKit;
 use pocketmine\block\{
-    Block, BlockFactory
+	Block, BlockFactory
 };
 use pocketmine\inventory\{
-  BaseInventory, CustomInventory
+	BaseInventory, CustomInventory
 };
 use pocketmine\item\Item;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\{
-  NBT, NetworkLittleEndianNBTStream
+	NBT, NetworkLittleEndianNBTStream
 };
 use pocketmine\nbt\tag\{
-  CompoundTag, IntTag, ListTag, StringTag
+	CompoundTag, IntTag, ListTag, StringTag
 };
 use pocketmine\network\mcpe\protocol\{
-  types\WindowTypes, UpdateBlockPacket, ContainerOpenPacket, BlockEntityDataPacket
+	BlockEntityDataPacket, ContainerOpenPacket, types\WindowTypes, UpdateBlockPacket
 };
+use pocketmine\Player;
 use pocketmine\tile\Spawnable;
-use kim\present\startkit\StartKit;
 
 class StartKitInventory extends CustomInventory{
 
-    /** @var StartKitInventory */
-    private static $instance = null;
+	/** @var StartKitInventory */
+	private static $instance = null;
 
-    /** @return StartKitInventory */
-    public static function getInstance() : self{
-        if (self::$instance === null) {
-            self::$instance = new StartKitInventory();
-        }
-        return self::$instance;
-    }
+	/** @return StartKitInventory */
+	public static function getInstance() : self{
+		if(self::$instance === null){
+			self::$instance = new StartKitInventory();
+		}
+		return self::$instance;
+	}
 
-    /** CompoundTag */
-    private $nbt;
+	/** CompoundTag */
+	private $nbt;
 
-    /** Vector3[] */
-    private $vectors = [];
+	/** Vector3[] */
+	private $vectors = [];
 
-    private function __construct(){
-        parent::__construct(new Vector3(0, 0, 0), [], 27, null);
-        self::$instance = $this;
-        $this->nbt = new CompoundTag('', [
-          new StringTag('id', 'Chest'),
-          new IntTag('x', 0),
-          new IntTag('y', 0),
-          new IntTag('z', 0),
-          new StringTag('CustomName', StartKit::getInstance()->getLanguage()->translate('startkit.name')),
-        ]);
-    }
+	private function __construct(){
+		parent::__construct(new Vector3(0, 0, 0), [], 27, null);
+		self::$instance = $this;
+		$this->nbt = new CompoundTag('', [
+			new StringTag('id', 'Chest'),
+			new IntTag('x', 0),
+			new IntTag('y', 0),
+			new IntTag('z', 0),
+			new StringTag('CustomName', StartKit::getInstance()->getLanguage()->translate('startkit.name')),
+		]);
+	}
 
-    /** @param Player $who */
-    public function onOpen(Player $who) : void{
-        BaseInventory::onOpen($who);
+	/** @param Player $who */
+	public function onOpen(Player $who) : void{
+		BaseInventory::onOpen($who);
 
-        $this->vectors[$key = $who->getLowerCaseName()] = $who->subtract(0, 3, 0)->floor();
-        if ($this->vectors[$key]->y < 0) {
-            $this->vectors[$key]->y = 0;
-        }
+		$this->vectors[$key = $who->getLowerCaseName()] = $who->subtract(0, 3, 0)->floor();
+		if($this->vectors[$key]->y < 0){
+			$this->vectors[$key]->y = 0;
+		}
 
-        $pk = new UpdateBlockPacket();
-        $pk->x = $this->vectors[$key]->x;
-        $pk->y = $this->vectors[$key]->y;
-        $pk->z = $this->vectors[$key]->z;
-        $pk->blockRuntimeId = BlockFactory::toStaticRuntimeId(Block::CHEST);
-        $pk->flags = UpdateBlockPacket::FLAG_NONE;
-        $who->sendDataPacket($pk);
-
-
-        $this->nbt->setInt('x', $this->vectors[$key]->x);
-        $this->nbt->setInt('y', $this->vectors[$key]->y);
-        $this->nbt->setInt('z', $this->vectors[$key]->z);
-
-        $pk = new BlockEntityDataPacket();
-        $pk->x = $this->vectors[$key]->x;
-        $pk->y = $this->vectors[$key]->y;
-        $pk->z = $this->vectors[$key]->z;
-        $pk->namedtag = (new NetworkLittleEndianNBTStream())->write($this->nbt);
-        $who->sendDataPacket($pk);
+		$pk = new UpdateBlockPacket();
+		$pk->x = $this->vectors[$key]->x;
+		$pk->y = $this->vectors[$key]->y;
+		$pk->z = $this->vectors[$key]->z;
+		$pk->blockRuntimeId = BlockFactory::toStaticRuntimeId(Block::CHEST);
+		$pk->flags = UpdateBlockPacket::FLAG_NONE;
+		$who->sendDataPacket($pk);
 
 
-        $pk = new ContainerOpenPacket();
-        $pk->type = WindowTypes::CONTAINER;
-        $pk->entityUniqueId = -1;
-        $pk->x = $this->vectors[$key]->x;
-        $pk->y = $this->vectors[$key]->y;
-        $pk->z = $this->vectors[$key]->z;
-        $pk->windowId = $who->getWindowId($this);
-        $who->sendDataPacket($pk);
+		$this->nbt->setInt('x', $this->vectors[$key]->x);
+		$this->nbt->setInt('y', $this->vectors[$key]->y);
+		$this->nbt->setInt('z', $this->vectors[$key]->z);
 
-        $this->sendContents($who);
-    }
+		$pk = new BlockEntityDataPacket();
+		$pk->x = $this->vectors[$key]->x;
+		$pk->y = $this->vectors[$key]->y;
+		$pk->z = $this->vectors[$key]->z;
+		$pk->namedtag = (new NetworkLittleEndianNBTStream())->write($this->nbt);
+		$who->sendDataPacket($pk);
 
-    public function onClose(Player $who) : void{
-        BaseInventory::onClose($who);
 
-        $block = $who->getLevel()->getBlock($this->vectors[$key = $who->getLowerCaseName()]);
+		$pk = new ContainerOpenPacket();
+		$pk->type = WindowTypes::CONTAINER;
+		$pk->entityUniqueId = -1;
+		$pk->x = $this->vectors[$key]->x;
+		$pk->y = $this->vectors[$key]->y;
+		$pk->z = $this->vectors[$key]->z;
+		$pk->windowId = $who->getWindowId($this);
+		$who->sendDataPacket($pk);
 
-        $pk = new UpdateBlockPacket();
-        $pk->x = $this->vectors[$key]->x;
-        $pk->y = $this->vectors[$key]->y;
-        $pk->z = $this->vectors[$key]->z;
-        $pk->blockRuntimeId = BlockFactory::toStaticRuntimeId($block->getId(), $block->getDamage());
-        $pk->flags = UpdateBlockPacket::FLAG_NONE;
-        $who->sendDataPacket($pk);
+		$this->sendContents($who);
+	}
 
-        $tile = $who->getLevel()->getTile($this->vectors[$key]);
-        if ($tile instanceof Spawnable) {
-            $who->sendDataPacket($tile->createSpawnPacket());
-        }
-        unset($this->vectors[$key]);
-    }
+	public function onClose(Player $who) : void{
+		BaseInventory::onClose($who);
 
-    /** @return string */
-    public function getName() : string{
-        return "StartKitInventory";
-    }
+		$block = $who->getLevel()->getBlock($this->vectors[$key = $who->getLowerCaseName()]);
 
-    /** @return int */
-    public function getDefaultSize() : int{
-        return 27;
-    }
+		$pk = new UpdateBlockPacket();
+		$pk->x = $this->vectors[$key]->x;
+		$pk->y = $this->vectors[$key]->y;
+		$pk->z = $this->vectors[$key]->z;
+		$pk->blockRuntimeId = BlockFactory::toStaticRuntimeId($block->getId(), $block->getDamage());
+		$pk->flags = UpdateBlockPacket::FLAG_NONE;
+		$who->sendDataPacket($pk);
 
-    /** @return int */
-    public function getNetworkType() : int{
-        return WindowTypes::CONTAINER;
-    }
+		$tile = $who->getLevel()->getTile($this->vectors[$key]);
+		if($tile instanceof Spawnable){
+			$who->sendDataPacket($tile->createSpawnPacket());
+		}
+		unset($this->vectors[$key]);
+	}
 
-    /**
-     * @param string $tagName
-     *
-     * @return ListTag
-     */
-    public function nbtSerialize(string $tagName = 'Kit') : ListTag{
-        $tag = new ListTag($tagName, [], NBT::TAG_Compound);
-        for ($slot = 0; $slot < 27; ++$slot) {
-            $item = $this->getItem($slot);
-            if (!$item->isNull()) {
-                $tag->push($item->nbtSerialize($slot));
-            }
-        }
-        return $tag;
-    }
+	/** @return string */
+	public function getName() : string{
+		return "StartKitInventory";
+	}
 
-    /**
-     * @param ListTag $tag
-     *
-     * @return StartKitInventory
-     */
-    public static function nbtDeserialize(ListTag $tag) : StartKitInventory{
-        $inventory = new StartKitInventory();
-        /** @var CompoundTag $itemTag */
-        foreach ($tag as $i => $itemTag) {
-            $inventory->setItem($itemTag->getByte("Slot"), Item::nbtDeserialize($itemTag));
-        }
-        return $inventory;
-    }
+	/** @return int */
+	public function getDefaultSize() : int{
+		return 27;
+	}
+
+	/** @return int */
+	public function getNetworkType() : int{
+		return WindowTypes::CONTAINER;
+	}
+
+	/**
+	 * @param string $tagName
+	 *
+	 * @return ListTag
+	 */
+	public function nbtSerialize(string $tagName = 'Kit') : ListTag{
+		$tag = new ListTag($tagName, [], NBT::TAG_Compound);
+		for($slot = 0; $slot < 27; ++$slot){
+			$item = $this->getItem($slot);
+			if(!$item->isNull()){
+				$tag->push($item->nbtSerialize($slot));
+			}
+		}
+		return $tag;
+	}
+
+	/**
+	 * @param ListTag $tag
+	 *
+	 * @return StartKitInventory
+	 */
+	public static function nbtDeserialize(ListTag $tag) : StartKitInventory{
+		$inventory = new StartKitInventory();
+		/** @var CompoundTag $itemTag */
+		foreach($tag as $i => $itemTag){
+			$inventory->setItem($itemTag->getByte("Slot"), Item::nbtDeserialize($itemTag));
+		}
+		return $inventory;
+	}
 }
