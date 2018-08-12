@@ -31,7 +31,7 @@ use pocketmine\block\{
 	Block, BlockFactory
 };
 use pocketmine\inventory\{
-	BaseInventory, CustomInventory
+	CustomInventory
 };
 use pocketmine\item\Item;
 use pocketmine\math\Vector3;
@@ -42,7 +42,7 @@ use pocketmine\nbt\tag\{
 	CompoundTag, IntTag, ListTag, StringTag
 };
 use pocketmine\network\mcpe\protocol\{
-	BlockEntityDataPacket, ContainerOpenPacket, types\WindowTypes, UpdateBlockPacket
+	BlockEntityDataPacket, types\WindowTypes, UpdateBlockPacket
 };
 use pocketmine\Player;
 use pocketmine\tile\{
@@ -61,14 +61,19 @@ class StartKitInventory extends CustomInventory{
 		return self::$instance;
 	}
 
-	/** Vector3[] */
+	/** @var Vector3[] */
 	private $vectors = [];
 
+	/**
+	 * StartKitInventory constructor.
+	 */
 	private function __construct(){
 		parent::__construct(new Vector3(), [], $this->getDefaultSize(), null);
 	}
 
-	/** @param Player $who */
+	/**
+	 * @param Player $who
+	 */
 	public function onOpen(Player $who) : void{
 		$this->vectors[$key = $who->getLowerCaseName()] = $who->subtract(0, 3, 0)->floor();
 		if($this->vectors[$key]->y < 0){
@@ -101,6 +106,9 @@ class StartKitInventory extends CustomInventory{
 		parent::onOpen($who);
 	}
 
+	/**
+	 * @param Player $who
+	 */
 	public function onClose(Player $who) : void{
 		$block = $who->getLevel()->getBlock($this->vectors[$key = $who->getLowerCaseName()]);
 
@@ -121,17 +129,23 @@ class StartKitInventory extends CustomInventory{
 		parent::onClose($who);
 	}
 
-	/** @return string */
+	/**
+	 * @return string
+	 */
 	public function getName() : string{
 		return "StartKitInventory";
 	}
 
-	/** @return int */
+	/**
+	 * @return int
+	 */
 	public function getDefaultSize() : int{
 		return 27;
 	}
 
-	/** @return int */
+	/**
+	 * @return int
+	 */
 	public function getNetworkType() : int{
 		return WindowTypes::CONTAINER;
 	}

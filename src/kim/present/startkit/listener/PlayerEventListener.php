@@ -35,11 +35,20 @@ class PlayerEventListener implements Listener{
 	/** @var StartKit */
 	private $owner = null;
 
+	/**
+	 * PlayerEventListener constructor.
+	 *
+	 * @param StartKit $owner
+	 */
 	public function __construct(StartKit $owner){
 		$this->owner = $owner;
 	}
 
-	/** @param PlayerJoinEvent $event */
+	/**
+	 * @priority MONITOR
+	 *
+	 * @param PlayerJoinEvent $event
+	 */
 	public function onPlayerJoinEvent(PlayerJoinEvent $event) : void{
 		$player = $event->getPlayer();
 		if(!$this->owner->isSupplied($player)){
