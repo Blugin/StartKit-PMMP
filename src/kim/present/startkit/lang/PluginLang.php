@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace kim\present\startkit\lang;
 
-
 use pocketmine\plugin\PluginBase;
 
 class PluginLang{

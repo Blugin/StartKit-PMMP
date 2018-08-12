@@ -32,7 +32,6 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 
 class PlayerEventListener implements Listener{
-
 	/** @var StartKit */
 	private $owner = null;
 

@@ -48,7 +48,6 @@ use pocketmine\Player;
 use pocketmine\tile\Spawnable;
 
 class StartKitInventory extends CustomInventory{
-
 	/** @var StartKitInventory */
 	private static $instance = null;
 

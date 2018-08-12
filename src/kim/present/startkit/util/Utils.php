@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace kim\present\startkit\util;
 
 class Utils{
-
 	/**
 	 * @param string $str
 	 * @param array  $strs

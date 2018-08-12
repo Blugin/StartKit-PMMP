@@ -47,7 +47,6 @@ use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 
 class StartKit extends PluginBase implements CommandExecutor{
-
 	/** @var StartKit */
 	private static $instance = null;
 
