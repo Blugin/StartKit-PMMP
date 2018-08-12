@@ -70,8 +70,6 @@ class StartKitInventory extends CustomInventory{
 
 	/** @param Player $who */
 	public function onOpen(Player $who) : void{
-		BaseInventory::onOpen($who);
-
 		$this->vectors[$key = $who->getLowerCaseName()] = $who->subtract(0, 3, 0)->floor();
 		if($this->vectors[$key]->y < 0){
 			$this->vectors[$key]->y = 0;
@@ -110,11 +108,11 @@ class StartKitInventory extends CustomInventory{
 		$who->sendDataPacket($pk);
 
 		$this->sendContents($who);
+
+		parent::onClose($who);
 	}
 
 	public function onClose(Player $who) : void{
-		BaseInventory::onClose($who);
-
 		$block = $who->getLevel()->getBlock($this->vectors[$key = $who->getLowerCaseName()]);
 
 		$pk = new UpdateBlockPacket();
@@ -130,6 +128,8 @@ class StartKitInventory extends CustomInventory{
 			$who->sendDataPacket($tile->createSpawnPacket());
 		}
 		unset($this->vectors[$key]);
+
+		parent::onClose($who);
 	}
 
 	/** @return string */
