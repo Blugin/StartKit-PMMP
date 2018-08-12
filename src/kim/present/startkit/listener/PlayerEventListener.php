@@ -42,8 +42,8 @@ class PlayerEventListener implements Listener{
 	/** @param PlayerJoinEvent $event */
 	public function onPlayerJoinEvent(PlayerJoinEvent $event) : void{
 		$player = $event->getPlayer();
-		if(!$this->owner->isSupplied($playerName = $player->getName())){
-			$this->owner->setSupplied($playerName, true);
+		if(!$this->owner->isSupplied($player)){
+			$this->owner->setSupplied($player, true);
 			$player->getInventory()->addItem(...StartKitInventory::getInstance()->getContents());
 		}
 	}

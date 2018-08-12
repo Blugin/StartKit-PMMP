@@ -30,15 +30,14 @@ use kim\present\startkit\inventory\StartKitInventory;
 use kim\present\startkit\lang\PluginLang;
 use kim\present\startkit\listener\PlayerEventListener;
 use kim\present\startkit\task\CheckUpdateAsyncTask;
-use kim\present\startkit\util\Utils;
 use pocketmine\command\{
 	Command, CommandExecutor, CommandSender, PluginCommand
 };
 use pocketmine\nbt\{
-	BigEndianNBTStream, NBT
+	BigEndianNBTStream
 };
 use pocketmine\nbt\tag\{
-	CompoundTag, ListTag, StringTag
+	CompoundTag
 };
 use pocketmine\permission\{
 	Permission, PermissionManager
@@ -47,6 +46,9 @@ use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 
 class StartKit extends PluginBase implements CommandExecutor{
+	public const TAG_PLUGIN = "StartKit";
+	public const TAG_INVENTORY = "Inventory";
+
 	/** @var StartKit */
 	private static $instance = null;
 
@@ -60,9 +62,6 @@ class StartKit extends PluginBase implements CommandExecutor{
 
 	/** @var PluginLang */
 	private $language;
-
-	/** @var String[] */
-	private $supplieds = [];
 
 	/**
 	 * Called when the plugin is loaded, before calling onEnable()
@@ -117,8 +116,7 @@ class StartKit extends PluginBase implements CommandExecutor{
 			try{
 				$namedTag = (new BigEndianNBTStream())->readCompressed(file_get_contents($file));
 				if($namedTag instanceof CompoundTag){
-					$this->supplieds = $namedTag->getListTag("SuppliedList")->getAllValues();
-					StartKitInventory::nbtDeserialize($namedTag->getListTag("Kit"));
+					StartKitInventory::nbtDeserialize($namedTag->getListTag(self::TAG_INVENTORY));
 				}else{
 					$this->getLogger()->critical("Invalid data found in \"config.dat\", expected " . CompoundTag::class . ", got " . (is_object($namedTag) ? get_class($namedTag) : gettype($namedTag)));
 				}
@@ -139,10 +137,7 @@ class StartKit extends PluginBase implements CommandExecutor{
 	public function onDisable() : void{
 		try{
 			file_put_contents("{$this->getDataFolder()}config.dat", (new BigEndianNBTStream())->writeCompressed(new CompoundTag("StartKit", [
-				new ListTag("SuppliedList", array_map(function(String $value){
-					return new StringTag($value, $value);
-				}, array_values($this->supplieds)), NBT::TAG_String),
-				StartKitInventory::getInstance()->nbtSerialize(),
+				StartKitInventory::getInstance()->nbtSerialize(self::TAG_INVENTORY),
 			])));
 		}catch(\Throwable $e){
 			$this->getLogger()->warning("Error occurred saving config.dat");
@@ -186,41 +181,24 @@ class StartKit extends PluginBase implements CommandExecutor{
 		return false;
 	}
 
-	/** @return String[] */
-	public function getSupplieds() : array{
-		return $this->supplieds;
-	}
-
-	/** @param String[] $supplieds */
-	public function setSupplieds(array $supplieds) : void{
-		$this->supplieds = $supplieds;
-	}
-
 	/**
-	 * @param string $playerName
+	 * @param Player $player
 	 *
 	 * @return bool
 	 */
-	public function isSupplied(string $playerName) : bool{
-		return Utils::in_arrayi($playerName, $this->supplieds);
+	public function isSupplied(Player $player) : bool{
+		return $player->namedtag->hasTag(self::TAG_PLUGIN);
 	}
 
 	/**
-	 * @param string $playerName
+	 * @param Player $player
 	 * @param bool   $supplied = true
 	 */
-	public function setSupplied(string $playerName, bool $supplied = true) : void{
+	public function setSupplied(Player $player, bool $supplied = true) : void{
 		if($supplied){
-			if(!$this->isSupplied($playerName)){
-				$this->supplieds[] = $playerName;
-			}
+			$player->namedtag->setByte(self::TAG_PLUGIN, 1);
 		}else{
-			for($i = 0, $count = count($this->supplieds); $i < $count; ++$i){
-				if(strcasecmp($this->supplieds[$i], $playerName) === 0){
-					unset($this->supplieds[$i]);
-					break;
-				}
-			}
+			$player->namedtag->removeTag(self::TAG_PLUGIN);
 		}
 	}
 
