@@ -112,7 +112,7 @@ class StartKit extends PluginBase implements CommandExecutor{
 		}
 
 		//Load startkit supplied list data
-		if(file_exists($file = "{$dataFolder}config.dat")){
+		if(file_exists($file = "{$dataFolder}kit.dat")){
 			try{
 				$namedTag = (new BigEndianNBTStream())->readCompressed(file_get_contents($file));
 				if($namedTag instanceof CompoundTag){
@@ -122,7 +122,7 @@ class StartKit extends PluginBase implements CommandExecutor{
 				}
 			}catch(\Throwable $e){
 				rename($file, "{$file}.bak");
-				$this->getLogger()->warning("Error occurred loading config.dat");
+				$this->getLogger()->warning("Error occurred loading kit.dat");
 			}
 		}
 
@@ -136,11 +136,11 @@ class StartKit extends PluginBase implements CommandExecutor{
 	 */
 	public function onDisable() : void{
 		try{
-			file_put_contents("{$this->getDataFolder()}config.dat", (new BigEndianNBTStream())->writeCompressed(new CompoundTag("StartKit", [
+			file_put_contents("{$this->getDataFolder()}kit.dat", (new BigEndianNBTStream())->writeCompressed(new CompoundTag("StartKit", [
 				StartKitInventory::getInstance()->nbtSerialize(self::TAG_INVENTORY),
 			])));
 		}catch(\Throwable $e){
-			$this->getLogger()->warning("Error occurred saving config.dat");
+			$this->getLogger()->warning("Error occurred saving kit.dat");
 		}
 	}
 
