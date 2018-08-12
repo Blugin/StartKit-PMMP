@@ -148,11 +148,11 @@ class StartKitInventory extends CustomInventory{
 	}
 
 	/**
-	 * @param string $tagName
+	 * @param string $tagName = "Inventory"
 	 *
 	 * @return ListTag
 	 */
-	public function nbtSerialize(string $tagName = "Kit") : ListTag{
+	public function nbtSerialize(string $tagName = "Inventory") : ListTag{
 		$tag = new ListTag($tagName, [], NBT::TAG_Compound);
 		for($slot = 0; $slot < 27; ++$slot){
 			$item = $this->getItem($slot);
