@@ -62,7 +62,7 @@ class StartKitInventory extends CustomInventory{
 	}
 
 	/** @var Vector3[] */
-	private $vectors = [];
+	private $holders = [];
 
 	/**
 	 * StartKitInventory constructor.
@@ -75,11 +75,11 @@ class StartKitInventory extends CustomInventory{
 	 * @param Player $who
 	 */
 	public function onOpen(Player $who) : void{
-		$this->vectors[$key = $who->getLowerCaseName()] = $who->subtract(0, 3, 0)->floor();
-		if($this->vectors[$key]->y < 0){
-			$this->vectors[$key]->y = 0;
+		$this->holders[$key = $who->getLowerCaseName()] = $who->subtract(0, 3, 0)->floor();
+		if($this->holders[$key]->y < 0){
+			$this->holders[$key]->y = 0;
 		}
-		$this->holder = $this->vectors[$key];
+		$this->holder = $this->holders[$key];
 
 		$pk = new UpdateBlockPacket();
 		$pk->x = $this->holder->x;
@@ -110,21 +110,21 @@ class StartKitInventory extends CustomInventory{
 	 * @param Player $who
 	 */
 	public function onClose(Player $who) : void{
-		$block = $who->getLevel()->getBlock($this->vectors[$key = $who->getLowerCaseName()]);
+		$block = $who->getLevel()->getBlock($this->holders[$key = $who->getLowerCaseName()]);
 
 		$pk = new UpdateBlockPacket();
-		$pk->x = $this->vectors[$key]->x;
-		$pk->y = $this->vectors[$key]->y;
-		$pk->z = $this->vectors[$key]->z;
+		$pk->x = $this->holders[$key]->x;
+		$pk->y = $this->holders[$key]->y;
+		$pk->z = $this->holders[$key]->z;
 		$pk->blockRuntimeId = BlockFactory::toStaticRuntimeId($block->getId(), $block->getDamage());
 		$pk->flags = UpdateBlockPacket::FLAG_NONE;
 		$who->sendDataPacket($pk);
 
-		$tile = $who->getLevel()->getTile($this->vectors[$key]);
+		$tile = $who->getLevel()->getTile($this->holders[$key]);
 		if($tile instanceof Spawnable){
 			$who->sendDataPacket($tile->createSpawnPacket());
 		}
-		unset($this->vectors[$key]);
+		unset($this->holders[$key]);
 
 		parent::onClose($who);
 	}
