@@ -98,7 +98,7 @@ class StartKitInventory extends CustomInventory{
 		]));
 		$who->sendDataPacket($pk);
 
-		parent::onClose($who);
+		parent::onOpen($who);
 	}
 
 	public function onClose(Player $who) : void{
