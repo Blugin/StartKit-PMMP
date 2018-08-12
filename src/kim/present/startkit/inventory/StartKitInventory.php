@@ -74,26 +74,27 @@ class StartKitInventory extends CustomInventory{
 		if($this->vectors[$key]->y < 0){
 			$this->vectors[$key]->y = 0;
 		}
+		$this->holder = $this->vectors[$key];
 
 		$pk = new UpdateBlockPacket();
-		$pk->x = $this->vectors[$key]->x;
-		$pk->y = $this->vectors[$key]->y;
-		$pk->z = $this->vectors[$key]->z;
+		$pk->x = $this->holder->x;
+		$pk->y = $this->holder->y;
+		$pk->z = $this->holder->z;
 		$pk->blockRuntimeId = BlockFactory::toStaticRuntimeId(Block::CHEST);
 		$pk->flags = UpdateBlockPacket::FLAG_NONE;
 		$who->sendDataPacket($pk);
 
 
 		$pk = new BlockEntityDataPacket();
-		$pk->x = $this->vectors[$key]->x;
-		$pk->y = $this->vectors[$key]->y;
-		$pk->z = $this->vectors[$key]->z;
+		$pk->x = $this->holder->x;
+		$pk->y = $this->holder->y;
+		$pk->z = $this->holder->z;
 		$pk->namedtag = (new NetworkLittleEndianNBTStream())->write(new CompoundTag("", [
 			new StringTag(Tile::TAG_ID, Tile::CHEST),
 			new StringTag(Chest::TAG_CUSTOM_NAME, StartKit::getInstance()->getLanguage()->translate("startkit.name")),
-			new IntTag(Tile::TAG_X, $this->vectors[$key]->x),
-			new IntTag(Tile::TAG_Y, $this->vectors[$key]->y),
-			new IntTag(Tile::TAG_Z, $this->vectors[$key]->z)
+			new IntTag(Tile::TAG_X, $this->holder->x),
+			new IntTag(Tile::TAG_Y, $this->holder->y),
+			new IntTag(Tile::TAG_Z, $this->holder->z)
 		]));
 		$who->sendDataPacket($pk);
 
@@ -101,9 +102,9 @@ class StartKitInventory extends CustomInventory{
 		$pk = new ContainerOpenPacket();
 		$pk->type = WindowTypes::CONTAINER;
 		$pk->entityUniqueId = -1;
-		$pk->x = $this->vectors[$key]->x;
-		$pk->y = $this->vectors[$key]->y;
-		$pk->z = $this->vectors[$key]->z;
+		$pk->x = $this->holder->x;
+		$pk->y = $this->holder->y;
+		$pk->z = $this->holder->z;
 		$pk->windowId = $who->getWindowId($this);
 		$who->sendDataPacket($pk);
 
