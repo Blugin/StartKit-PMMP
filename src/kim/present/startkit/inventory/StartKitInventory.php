@@ -98,18 +98,6 @@ class StartKitInventory extends CustomInventory{
 		]));
 		$who->sendDataPacket($pk);
 
-
-		$pk = new ContainerOpenPacket();
-		$pk->type = WindowTypes::CONTAINER;
-		$pk->entityUniqueId = -1;
-		$pk->x = $this->holder->x;
-		$pk->y = $this->holder->y;
-		$pk->z = $this->holder->z;
-		$pk->windowId = $who->getWindowId($this);
-		$who->sendDataPacket($pk);
-
-		$this->sendContents($who);
-
 		parent::onClose($who);
 	}
 
