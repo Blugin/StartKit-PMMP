@@ -47,12 +47,12 @@ class StartKitInventory extends CustomInventory{
 	private function __construct(){
 		parent::__construct(new Vector3(0, 0, 0), [], 27, null);
 		self::$instance = $this;
-		$this->nbt = new CompoundTag('', [
-			new StringTag('id', 'Chest'),
-			new IntTag('x', 0),
-			new IntTag('y', 0),
-			new IntTag('z', 0),
-			new StringTag('CustomName', StartKit::getInstance()->getLanguage()->translate('startkit.name')),
+		$this->nbt = new CompoundTag("", [
+			new StringTag("id", "Chest"),
+			new IntTag("x", 0),
+			new IntTag("y", 0),
+			new IntTag("z", 0),
+			new StringTag("CustomName", StartKit::getInstance()->getLanguage()->translate("startkit.name")),
 		]);
 	}
 
@@ -74,9 +74,9 @@ class StartKitInventory extends CustomInventory{
 		$who->sendDataPacket($pk);
 
 
-		$this->nbt->setInt('x', $this->vectors[$key]->x);
-		$this->nbt->setInt('y', $this->vectors[$key]->y);
-		$this->nbt->setInt('z', $this->vectors[$key]->z);
+		$this->nbt->setInt("x", $this->vectors[$key]->x);
+		$this->nbt->setInt("y", $this->vectors[$key]->y);
+		$this->nbt->setInt("z", $this->vectors[$key]->z);
 
 		$pk = new BlockEntityDataPacket();
 		$pk->x = $this->vectors[$key]->x;
@@ -138,7 +138,7 @@ class StartKitInventory extends CustomInventory{
 	 *
 	 * @return ListTag
 	 */
-	public function nbtSerialize(string $tagName = 'Kit') : ListTag{
+	public function nbtSerialize(string $tagName = "Kit") : ListTag{
 		$tag = new ListTag($tagName, [], NBT::TAG_Compound);
 		for($slot = 0; $slot < 27; ++$slot){
 			$item = $this->getItem($slot);

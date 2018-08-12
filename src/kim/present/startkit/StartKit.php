@@ -90,14 +90,14 @@ class StartKit extends PluginBase implements CommandExecutor{
 			try{
 				$namedTag = (new BigEndianNBTStream())->readCompressed(file_get_contents($file));
 				if($namedTag instanceof CompoundTag){
-					$this->supplieds = $namedTag->getListTag('SuppliedList')->getAllValues();
-					StartKitInventory::nbtDeserialize($namedTag->getListTag('Kit'));
+					$this->supplieds = $namedTag->getListTag("SuppliedList")->getAllValues();
+					StartKitInventory::nbtDeserialize($namedTag->getListTag("Kit"));
 				}else{
 					$this->getLogger()->critical("Invalid data found in \"config.dat\", expected " . CompoundTag::class . ", got " . (is_object($namedTag) ? get_class($namedTag) : gettype($namedTag)));
 				}
 			}catch(\Throwable $e){
 				rename($file, "{$file}.bak");
-				$this->getLogger()->warning('Error occurred loading config.dat');
+				$this->getLogger()->warning("Error occurred loading config.dat");
 			}
 		}
 
@@ -111,14 +111,14 @@ class StartKit extends PluginBase implements CommandExecutor{
 	 */
 	public function onDisable() : void{
 		try{
-			file_put_contents("{$this->getDataFolder()}config.dat", (new BigEndianNBTStream())->writeCompressed(new CompoundTag('StartKit', [
-				new ListTag('SuppliedList', array_map(function(String $value){
+			file_put_contents("{$this->getDataFolder()}config.dat", (new BigEndianNBTStream())->writeCompressed(new CompoundTag("StartKit", [
+				new ListTag("SuppliedList", array_map(function(String $value){
 					return new StringTag($value, $value);
 				}, array_values($this->supplieds)), NBT::TAG_String),
 				StartKitInventory::getInstance()->nbtSerialize(),
 			])));
 		}catch(\Throwable $e){
-			$this->getLogger()->warning('Error occurred saving config.dat');
+			$this->getLogger()->warning("Error occurred saving config.dat");
 		}
 	}
 
@@ -134,7 +134,7 @@ class StartKit extends PluginBase implements CommandExecutor{
 		if($sender instanceof Player){
 			$sender->addWindow(StartKitInventory::getInstance());
 		}else{
-			$sender->sendMessage($this->language->translate('commands.generic.onlyPlayer'));
+			$sender->sendMessage($this->language->translate("commands.generic.onlyPlayer"));
 		}
 		return true;
 	}
