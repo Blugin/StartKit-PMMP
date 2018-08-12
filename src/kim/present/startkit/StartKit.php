@@ -136,7 +136,7 @@ class StartKit extends PluginBase implements CommandExecutor{
 	 */
 	public function onDisable() : void{
 		try{
-			file_put_contents("{$this->getDataFolder()}kit.dat", (new BigEndianNBTStream())->writeCompressed(new CompoundTag("StartKit", [
+			file_put_contents("{$this->getDataFolder()}kit.dat", (new BigEndianNBTStream())->writeCompressed(new CompoundTag("", [
 				StartKitInventory::getInstance()->nbtSerialize(self::TAG_INVENTORY),
 			])));
 		}catch(\Throwable $e){
