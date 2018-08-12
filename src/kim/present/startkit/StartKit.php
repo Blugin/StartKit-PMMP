@@ -17,6 +17,9 @@ use pocketmine\nbt\{
 use pocketmine\nbt\tag\{
 	CompoundTag, ListTag, StringTag
 };
+use pocketmine\permission\{
+	Permission, PermissionManager
+};
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 
@@ -50,23 +53,39 @@ class StartKit extends PluginBase implements CommandExecutor{
 	 * Called when the plugin is enabled
 	 */
 	public function onEnable() : void{
+		//Save default resources
+		$this->saveResource("lang/eng/lang.ini", false);
+		$this->saveResource("lang/kor/lang.ini", false);
+		$this->saveResource("lang/language.list", false);
+
+		//Load config file
+		$this->saveDefaultConfig();
+		$this->reloadConfig();
+		$config = $this->getConfig();
+
+		//Load language file
+		$this->language = new PluginLang($this, $config->getNested("settings.language"));
+		$this->getLogger()->info($this->language->translate("language.selected", [$this->language->getName(), $this->language->getLang()]));
+
+		//Register main command
+		$this->command = new PluginCommand($config->getNested("command.name"), $this);
+		$this->command->setPermission("startkit.cmd");
+		$this->command->setAliases($config->getNested("command.aliases"));
+		$this->command->setUsage($this->language->translate("commands.startkit.usage"));
+		$this->command->setDescription($this->language->translate("commands.startkit.description"));
+		$this->getServer()->getCommandMap()->register($this->getName(), $this->command);
+
+		//Load permission's default value from config
+		$permissions = PermissionManager::getInstance()->getPermissions();
+		$defaultValue = $config->getNested("permission.main");
+		if($defaultValue !== null){
+			$permissions["startkit.cmd"]->setDefault(Permission::getByName($config->getNested("permission.main")));
+		}
 		if(!file_exists($dataFolder = $this->getDataFolder())){
 			mkdir($dataFolder, 0777, true);
 		}
-		$this->language = new PluginLang($this);
 
-		if($this->command !== null){
-			$this->getServer()->getCommandMap()->unregister($this->command);
-		}
-		$this->command = new PluginCommand($this->language->translate('commands.startkit'), $this);
-		$this->command->setPermission('startkit.cmd');
-		$this->command->setDescription($this->language->translate('commands.startkit.description'));
-		$this->command->setUsage($this->language->translate('commands.startkit.usage'));
-		if(is_array($aliases = $this->language->getArray('commands.startkit.aliases'))){
-			$this->command->setAliases($aliases);
-		}
-		$this->getServer()->getCommandMap()->register('startkit', $this->command);
-
+		//Load startkit supplied list data
 		if(file_exists($file = "{$dataFolder}config.dat")){
 			try{
 				$namedTag = (new BigEndianNBTStream())->readCompressed(file_get_contents($file));
@@ -82,6 +101,7 @@ class StartKit extends PluginBase implements CommandExecutor{
 			}
 		}
 
+		//Register event listeners
 		$this->getServer()->getPluginManager()->registerEvents(new PlayerEventListener($this), $this);
 	}
 
@@ -90,12 +110,8 @@ class StartKit extends PluginBase implements CommandExecutor{
 	 * Use this to free open things and finish actions
 	 */
 	public function onDisable() : void{
-		if(!file_exists($dataFolder = $this->getDataFolder())){
-			mkdir($dataFolder, 0777, true);
-		}
-
 		try{
-			file_put_contents("{$dataFolder}config.dat", (new BigEndianNBTStream())->writeCompressed(new CompoundTag('StartKit', [
+			file_put_contents("{$this->getDataFolder()}config.dat", (new BigEndianNBTStream())->writeCompressed(new CompoundTag('StartKit', [
 				new ListTag('SuppliedList', array_map(function(String $value){
 					return new StringTag($value, $value);
 				}, array_values($this->supplieds)), NBT::TAG_String),
@@ -121,6 +137,26 @@ class StartKit extends PluginBase implements CommandExecutor{
 			$sender->sendMessage($this->language->translate('commands.generic.onlyPlayer'));
 		}
 		return true;
+	}
+
+	/**
+	 * @Override for multilingual support of the config file
+	 *
+	 * @return bool
+	 */
+	public function saveDefaultConfig() : bool{
+		$resource = $this->getResource("lang/{$this->getServer()->getLanguage()->getLang()}/config.yml");
+		if($resource === null){
+			$resource = $this->getResource("lang/" . PluginLang::FALLBACK_LANGUAGE . "/config.yml");
+		}
+
+		if(!file_exists($configFile = $this->getDataFolder() . "config.yml")){
+			$ret = stream_copy_to_stream($resource, $fp = fopen($configFile, "wb")) > 0;
+			fclose($fp);
+			fclose($resource);
+			return $ret;
+		}
+		return false;
 	}
 
 	/** @return String[] */
@@ -162,30 +198,9 @@ class StartKit extends PluginBase implements CommandExecutor{
 	}
 
 	/**
-	 * @param string $name = ''
-	 *
-	 * @return PluginCommand
-	 */
-	public function getCommand(string $name = '') : PluginCommand{
-		return $this->command;
-	}
-
-	/**
 	 * @return PluginLang
 	 */
 	public function getLanguage() : PluginLang{
 		return $this->language;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSourceFolder() : string{
-		$pharPath = \Phar::running();
-		if(empty($pharPath)){
-			return dirname(__FILE__, 4) . DIRECTORY_SEPARATOR;
-		}else{
-			return $pharPath . DIRECTORY_SEPARATOR;
-		}
 	}
 }
