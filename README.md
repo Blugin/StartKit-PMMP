@@ -1,18 +1,10 @@
-# StartKit [![license](https://img.shields.io/github/license/PresentKim/StartKit-PMMP.svg?label=License)](LICENSE)
-<img src="./assets/icon/index.svg" height="256" width="256">  
+# <img src="./assets/icon/index.svg" height="50" width="50"> StartKit  
+__A plugin for [PMMP](https://pmmp.io) :: Give start kit to player!__  
 
-[![release](https://img.shields.io/github/release/PresentKim/StartKit-PMMP.svg?label=Release) ![download](https://img.shields.io/github/downloads/PresentKim/StartKit-PMMP/total.svg?label=Download)](https://github.com/PresentKim/StartKit-PMMP/releases/latest)
+[![license](https://img.shields.io/github/license/PresentKim/StartKit-PMMP.svg?label=License)](./LICENSE)
+[![release](https://img.shields.io/github/release/PresentKim/StartKit-PMMP.svg?label=Release)](../../releases/latest)
+[![download](https://img.shields.io/github/downloads/PresentKim/StartKit-PMMP/total.svg?label=Download)](../../releases/latest)
   
-<br/><br/>
-
-A plugin give start kit to player  
+*****
   
-## Command
-| name     | description   | permission        |
-| :------: | :-----------: | :---------------: |
-| startkit | Open startkit | `OP` startkit.cmd |
-  
-<br/><br/>
-  
-## Required API
-- PocketMine-MP : higher than [Build #937](https://jenkins.pmmp.io/job/PocketMine-MP/937)
+[*See the details*](../../wiki)  
