@@ -7,6 +7,8 @@ settings:
   #Available: eng, kor
   language: "tur"
 
+  update-check: false
+
 
 command:
   #Name of main command
