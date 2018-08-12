@@ -1,14 +1,14 @@
 ---
-name:                      StartKit
-main:                      kim\present\startkit\StartKit
-version:                   1.0.3
-api:                       [3.0.0, 4.0.0]
-author:                    PresentKim
-website:                   https://github.com/PresentKim/StartKit-PMMP
-description:               A plugin give start kit to player
+name: StartKit
+main: kim\present\startkit\StartKit
+version: 1.0.3
+api: [3.0.0, 4.0.0]
+author: PresentKim
+website: https://github.com/PresentKim/StartKit-PMMP
+description: A plugin give start kit to player
 
 permissions:
   startkit.cmd:
-    description:           StartKit command
-    default:               op
+    description: StartKit command
+    default: op
 ...
