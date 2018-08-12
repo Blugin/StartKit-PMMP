@@ -45,7 +45,9 @@ use pocketmine\network\mcpe\protocol\{
 	BlockEntityDataPacket, ContainerOpenPacket, types\WindowTypes, UpdateBlockPacket
 };
 use pocketmine\Player;
-use pocketmine\tile\Spawnable;
+use pocketmine\tile\{
+	Chest, Spawnable, Tile
+};
 
 class StartKitInventory extends CustomInventory{
 	/** @var StartKitInventory */
@@ -59,22 +61,11 @@ class StartKitInventory extends CustomInventory{
 		return self::$instance;
 	}
 
-	/** CompoundTag */
-	private $nbt;
-
 	/** Vector3[] */
 	private $vectors = [];
 
 	private function __construct(){
-		parent::__construct(new Vector3(0, 0, 0), [], 27, null);
-		self::$instance = $this;
-		$this->nbt = new CompoundTag("", [
-			new StringTag("id", "Chest"),
-			new IntTag("x", 0),
-			new IntTag("y", 0),
-			new IntTag("z", 0),
-			new StringTag("CustomName", StartKit::getInstance()->getLanguage()->translate("startkit.name")),
-		]);
+		parent::__construct(new Vector3(), [], $this->getDefaultSize(), null);
 	}
 
 	/** @param Player $who */
@@ -95,15 +86,17 @@ class StartKitInventory extends CustomInventory{
 		$who->sendDataPacket($pk);
 
 
-		$this->nbt->setInt("x", $this->vectors[$key]->x);
-		$this->nbt->setInt("y", $this->vectors[$key]->y);
-		$this->nbt->setInt("z", $this->vectors[$key]->z);
-
 		$pk = new BlockEntityDataPacket();
 		$pk->x = $this->vectors[$key]->x;
 		$pk->y = $this->vectors[$key]->y;
 		$pk->z = $this->vectors[$key]->z;
-		$pk->namedtag = (new NetworkLittleEndianNBTStream())->write($this->nbt);
+		$pk->namedtag = (new NetworkLittleEndianNBTStream())->write(new CompoundTag("", [
+			new StringTag(Tile::TAG_ID, Tile::CHEST),
+			new StringTag(Chest::TAG_CUSTOM_NAME, StartKit::getInstance()->getLanguage()->translate("startkit.name")),
+			new IntTag(Tile::TAG_X, $this->vectors[$key]->x),
+			new IntTag(Tile::TAG_Y, $this->vectors[$key]->y),
+			new IntTag(Tile::TAG_Z, $this->vectors[$key]->z)
+		]));
 		$who->sendDataPacket($pk);
 
 
