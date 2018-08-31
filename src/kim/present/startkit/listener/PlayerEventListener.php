@@ -33,15 +33,15 @@ use pocketmine\event\player\PlayerJoinEvent;
 
 class PlayerEventListener implements Listener{
 	/** @var StartKit */
-	private $owner = null;
+	private $plugin = null;
 
 	/**
 	 * PlayerEventListener constructor.
 	 *
-	 * @param StartKit $owner
+	 * @param StartKit $plugin
 	 */
-	public function __construct(StartKit $owner){
-		$this->owner = $owner;
+	public function __construct(StartKit $plugin){
+		$this->plugin = $plugin;
 	}
 
 	/**
@@ -56,13 +56,13 @@ class PlayerEventListener implements Listener{
 		try{
 			$namedtag = $player->getServer()->getOfflinePlayerData($player->getName());
 			if($namedtag->hasTag(StartKit::TAG_PLUGIN)){
-				$this->owner->setSupplied($player, true);
+				$this->plugin->setSupplied($player, true);
 			}
 		}catch(\Exception $e){
 		}
 
-		if(!$this->owner->isSupplied($player)){
-			$this->owner->setSupplied($player, true);
+		if(!$this->plugin->isSupplied($player)){
+			$this->plugin->setSupplied($player, true);
 			$player->getInventory()->addItem(...StartKitInventory::getInstance()->getContents());
 		}
 	}
