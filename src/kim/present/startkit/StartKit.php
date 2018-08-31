@@ -108,12 +108,9 @@ class StartKit extends PluginBase implements CommandExecutor{
 		if($defaultValue !== null){
 			$permissions["startkit.cmd"]->setDefault(Permission::getByName($config->getNested("permission.main")));
 		}
-		if(!file_exists($dataFolder = $this->getDataFolder())){
-			mkdir($dataFolder, 0777, true);
-		}
 
 		//Load startkit supplied list data
-		if(file_exists($file = "{$dataFolder}kit.dat")){
+		if(file_exists($file = "{$this->getDataFolder()}kit.dat")){
 			try{
 				$namedTag = (new BigEndianNBTStream())->readCompressed(file_get_contents($file));
 				if($namedTag instanceof CompoundTag){
@@ -125,6 +122,11 @@ class StartKit extends PluginBase implements CommandExecutor{
 				rename($file, "{$file}.bak");
 				$this->getLogger()->warning("Error occurred loading kit.dat");
 			}
+		}
+
+		//Create supplied data folder
+		if(!file_exists($dataFolder = "{$this->getDataFolder()}supplied/")){
+			mkdir($dataFolder, 0777, true);
 		}
 
 		//Register event listeners
