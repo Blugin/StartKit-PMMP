@@ -31,7 +31,7 @@ use kim\present\startkit\lang\PluginLang;
 use kim\present\startkit\listener\PlayerEventListener;
 use kim\present\startkit\task\CheckUpdateAsyncTask;
 use pocketmine\command\{
-	Command, CommandExecutor, CommandSender, PluginCommand
+	Command, CommandSender, PluginCommand
 };
 use pocketmine\nbt\{
 	BigEndianNBTStream
@@ -45,7 +45,7 @@ use pocketmine\permission\{
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 
-class StartKit extends PluginBase implements CommandExecutor{
+class StartKit extends PluginBase{
 	public const TAG_PLUGIN = "StartKit";
 	public const TAG_INVENTORY = "Inventory";
 
