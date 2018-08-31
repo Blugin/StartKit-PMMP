@@ -77,6 +77,7 @@ class StartKit extends PluginBase implements CommandExecutor{
 		//Save default resources
 		$this->saveResource("lang/eng/lang.ini", false);
 		$this->saveResource("lang/kor/lang.ini", false);
+		$this->saveResource("lang/tur/lang.ini", false);
 		$this->saveResource("lang/language.list", false);
 
 		//Load config file
