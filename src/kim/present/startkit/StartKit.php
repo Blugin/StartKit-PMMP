@@ -118,7 +118,7 @@ class StartKit extends PluginBase implements CommandExecutor{
 				if($namedTag instanceof CompoundTag){
 					StartKitInventory::nbtDeserialize($namedTag->getListTag(self::TAG_INVENTORY));
 				}else{
-					$this->getLogger()->critical("Invalid data found in \"config.dat\", expected " . CompoundTag::class . ", got " . (is_object($namedTag) ? get_class($namedTag) : gettype($namedTag)));
+					$this->getLogger()->critical("Invalid data found in \"kit.dat\", expected " . CompoundTag::class . ", got " . (is_object($namedTag) ? get_class($namedTag) : gettype($namedTag)));
 				}
 			}catch(\Throwable $e){
 				rename($file, "{$file}.bak");
