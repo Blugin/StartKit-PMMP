@@ -51,6 +51,16 @@ class PlayerEventListener implements Listener{
 	 */
 	public function onPlayerJoinEvent(PlayerJoinEvent $event) : void{
 		$player = $event->getPlayer();
+
+		//Support for older data conversion
+		try{
+			$namedtag = $player->getServer()->getOfflinePlayerData($player->getName());
+			if($namedtag->hasTag(StartKit::TAG_PLUGIN)){
+				$this->owner->setSupplied($player, true);
+			}
+		}catch(\Exception $e){
+		}
+
 		if(!$this->owner->isSupplied($player)){
 			$this->owner->setSupplied($player, true);
 			$player->getInventory()->addItem(...StartKitInventory::getInstance()->getContents());
