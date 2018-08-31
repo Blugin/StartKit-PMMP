@@ -56,7 +56,7 @@ class StartKitInventory extends CustomInventory{
 	/** @return StartKitInventory */
 	public static function getInstance() : self{
 		if(self::$instance === null){
-			self::$instance = new StartKitInventory();
+			new StartKitInventory();
 		}
 		return self::$instance;
 	}
@@ -69,6 +69,8 @@ class StartKitInventory extends CustomInventory{
 	 */
 	private function __construct(){
 		parent::__construct(new Vector3(), [], $this->getDefaultSize(), null);
+
+		self::$instance = $this;
 	}
 
 	/**
