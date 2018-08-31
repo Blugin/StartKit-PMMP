@@ -200,11 +200,9 @@ class StartKit extends PluginBase{
 	public function setSupplied(Player $player, bool $supplied = true) : void{
 		$fileName = "{$this->getDataFolder()}supplied/{$player->getLowerCaseName()}";
 		if($supplied){
-			if(file_exists($fileName)){
-				unlink($fileName);
-			}
-		}else{
 			file_put_contents($fileName, "");
+		}elseif(file_exists($fileName)){
+			unlink($fileName);
 		}
 	}
 
