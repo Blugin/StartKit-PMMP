@@ -188,7 +188,7 @@ class StartKit extends PluginBase implements CommandExecutor{
 	 * @return bool
 	 */
 	public function isSupplied(Player $player) : bool{
-		return $player->namedtag->hasTag(self::TAG_PLUGIN);
+		return file_exists("{$this->getDataFolder()}supplied/{$player->getLowerCaseName()}");
 	}
 
 	/**
@@ -196,10 +196,13 @@ class StartKit extends PluginBase implements CommandExecutor{
 	 * @param bool   $supplied = true
 	 */
 	public function setSupplied(Player $player, bool $supplied = true) : void{
+		$fileName = "{$this->getDataFolder()}supplied/{$player->getLowerCaseName()}";
 		if($supplied){
-			$player->namedtag->setByte(self::TAG_PLUGIN, 1);
+			if(file_exists($fileName)){
+				unlink($fileName);
+			}
 		}else{
-			$player->namedtag->removeTag(self::TAG_PLUGIN);
+			file_put_contents($fileName, "");
 		}
 	}
 
