@@ -1,4 +1,4 @@
-# <img src="./assets/icon/index.svg" height="50" width="50"> StartKit  
+# <img src="https://rawgit.com/PresentKim/SVG-files/master/plugin-icons/startkit.svg" height="50" width="50"> StartKit  
 __A plugin for [PMMP](https://pmmp.io) :: Give start kit to player!__  
 
 [![license](https://img.shields.io/github/license/Blugin/StartKit-PMMP.svg?label=License)](./LICENSE)
